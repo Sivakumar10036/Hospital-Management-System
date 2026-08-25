@@ -1,0 +1,447 @@
+.add-doctor-page
+{
+    min-height: 100vh;
+    padding: 38px 34px 60px;
+    background: #f5f8fc;
+}
+
+.add-doctor-header
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 30px;
+    margin-bottom: 28px;
+}
+
+.page-label
+{
+    margin-bottom: 8px;
+    color: #2563eb;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+.add-doctor-header h1
+{
+    margin: 0;
+    color: #102a43;
+    font-size: 34px;
+    font-weight: 800;
+}
+
+.add-doctor-header p
+{
+    margin: 8px 0 0;
+    color: #7186a1;
+    font-size: 16px;
+}
+
+.back-button
+{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    background: transparent;
+    color: #2563eb;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.back-button:hover
+{
+    color: #1d4ed8;
+}
+
+.doctor-alert
+{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px 18px;
+    border-radius: 10px;
+    margin-bottom: 22px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.doctor-alert-error
+{
+    background: #fff1f2;
+    border: 1px solid #fecdd3;
+    color: #dc2626;
+}
+
+.doctor-alert-success
+{
+    background: #ecfdf5;
+    border: 1px solid #a7f3d0;
+    color: #059669;
+}
+
+.doctor-form
+{
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.doctor-card
+{
+    background: #ffffff;
+    border: 1px solid #e0e8f2;
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
+}
+
+.doctor-card-header
+{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 28px;
+}
+
+.section-icon
+{
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: #edf4ff;
+    color: #2563eb;
+}
+
+.doctor-card-header h2
+{
+    margin: 0;
+    color: #102a43;
+    font-size: 21px;
+}
+
+.doctor-card-header p
+{
+    margin: 5px 0 0;
+    color: #8295ad;
+    font-size: 14px;
+}
+
+.photo-upload-area
+{
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    padding: 20px;
+    margin-bottom: 28px;
+    border: 1px dashed #cdd9e8;
+    border-radius: 14px;
+    background: #fbfdff;
+}
+
+.doctor-photo-preview
+{
+    width: 110px;
+    height: 110px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 50%;
+    background: #edf4ff;
+    color: #75a0e8;
+}
+
+.doctor-photo-preview img
+{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.photo-upload-content
+{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.upload-photo-button
+{
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 17px;
+    border-radius: 8px;
+    background: #2563eb;
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.upload-photo-button:hover
+{
+    background: #1d4ed8;
+}
+
+.photo-upload-content p
+{
+    margin: 0;
+    color: #8a9bb0;
+    font-size: 13px;
+}
+
+.form-grid
+{
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px 20px;
+}
+
+.form-group
+{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group.full-width
+{
+    margin-top: 22px;
+}
+
+.form-group label
+{
+    color: #30445d;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.input-wrapper
+{
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-wrapper svg
+{
+    position: absolute;
+    left: 15px;
+    color: #91a3b8;
+    pointer-events: none;
+}
+
+.input-wrapper input,
+.input-wrapper select,
+.form-group textarea
+{
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #d9e2ed;
+    border-radius: 9px;
+    outline: none;
+    background: white;
+    color: #243b53;
+    font-family: inherit;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.input-wrapper input,
+.input-wrapper select
+{
+    height: 48px;
+    padding: 0 15px 0 45px;
+}
+
+.form-group textarea
+{
+    padding: 14px;
+    resize: vertical;
+}
+
+.input-wrapper input:focus,
+.input-wrapper select:focus,
+.form-group textarea:focus
+{
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
+}
+
+.input-wrapper select
+{
+    appearance: auto;
+}
+
+.days-container
+{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.day-option
+{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border: 1px solid #d9e2ed;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #536b84;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.day-option input
+{
+    width: 16px;
+    height: 16px;
+    accent-color: #2563eb;
+}
+
+.day-option.selected
+{
+    border-color: #2563eb;
+    background: #eff6ff;
+    color: #2563eb;
+}
+
+.form-actions
+{
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding-top: 5px;
+}
+
+.cancel-button,
+.create-doctor-button
+{
+    height: 48px;
+    padding: 0 22px;
+    border-radius: 9px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.cancel-button
+{
+    border: 1px solid #d7e0eb;
+    background: white;
+    color: #40566f;
+}
+
+.cancel-button:hover
+{
+    background: #f8fafc;
+}
+
+.create-doctor-button
+{
+    border: none;
+    background: #2563eb;
+    color: white;
+    min-width: 190px;
+}
+
+.create-doctor-button:hover
+{
+    background: #1d4ed8;
+}
+
+.create-doctor-button:disabled,
+.cancel-button:disabled
+{
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.button-spinner
+{
+    width: 17px;
+    height: 17px;
+    border: 2px solid rgba(255,255,255,0.35);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: doctorSpinner 0.7s linear infinite;
+}
+
+@keyframes doctorSpinner
+{
+    from
+    {
+        transform: rotate(0deg);
+    }
+
+    to
+    {
+        transform: rotate(360deg);
+    }
+}
+
+@media (max-width: 900px)
+{
+    .add-doctor-page
+    {
+        padding: 25px 20px 45px;
+    }
+
+    .add-doctor-header
+    {
+        flex-direction: column;
+    }
+
+    .form-grid
+    {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px)
+{
+    .doctor-card
+    {
+        padding: 20px;
+    }
+
+    .add-doctor-header h1
+    {
+        font-size: 28px;
+    }
+
+    .photo-upload-area
+    {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .form-actions
+    {
+        flex-direction: column-reverse;
+    }
+
+    .cancel-button,
+    .create-doctor-button
+    {
+        width: 100%;
+    }
+}

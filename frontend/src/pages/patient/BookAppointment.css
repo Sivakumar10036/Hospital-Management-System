@@ -1,0 +1,527 @@
+.book-appointment-page
+{
+    min-height: 100vh;
+    background: #f5f7fb;
+    padding: 32px;
+}
+
+.book-appointment-container
+{
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.book-back-button
+{
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 22px;
+    padding: 10px 14px;
+    border: 1px solid #dbe3ef;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.book-back-button:hover
+{
+    color: #2563eb;
+    border-color: #bfdbfe;
+    background: #eff6ff;
+}
+
+.book-page-header
+{
+    margin-bottom: 25px;
+}
+
+.book-page-header h1
+{
+    margin: 6px 0;
+    color: #172033;
+    font-size: 30px;
+}
+
+.book-page-header p
+{
+    margin: 0;
+    color: #718096;
+    font-size: 14px;
+}
+
+.book-layout
+{
+    display: grid;
+    grid-template-columns: 1.5fr 0.8fr;
+    gap: 24px;
+    align-items: start;
+}
+
+.book-main-card,
+.book-doctor-card
+{
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    background: #ffffff;
+    overflow: hidden;
+}
+
+.book-card-header
+{
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 21px 24px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.book-card-icon
+{
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    color: #2563eb;
+    background: #eff6ff;
+}
+
+.book-card-header h2
+{
+    margin: 0 0 4px;
+    color: #172033;
+    font-size: 17px;
+}
+
+.book-card-header p
+{
+    margin: 0;
+    color: #718096;
+    font-size: 12px;
+}
+
+.book-card-body
+{
+    padding: 24px;
+}
+
+.book-form-group
+{
+    margin-bottom: 23px;
+}
+
+.book-form-group label
+{
+    display: block;
+    margin-bottom: 8px;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.book-form-group input,
+.book-form-group textarea
+{
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #dbe3ef;
+    border-radius: 9px;
+    background: #ffffff;
+    color: #172033;
+    font-family: inherit;
+    font-size: 13px;
+    outline: none;
+    transition: 0.2s ease;
+}
+
+.book-form-group input
+{
+    height: 45px;
+    padding: 0 13px;
+}
+
+.book-form-group textarea
+{
+    padding: 12px 13px;
+    resize: vertical;
+}
+
+.book-form-group input:focus,
+.book-form-group textarea:focus
+{
+    border-color: #2563eb;
+    box-shadow:
+        0 0 0 3px
+        rgba(
+            37,
+            99,
+            235,
+            0.08
+        );
+}
+
+.book-help-text
+{
+    display: block;
+    margin-top: 6px;
+    color: #94a3b8;
+    font-size: 11px;
+}
+
+.book-slot-section
+{
+    margin-bottom: 25px;
+}
+
+.book-slot-heading
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 11px;
+}
+
+.book-slot-heading label
+{
+    display: block;
+    margin-bottom: 4px;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.book-slot-heading span
+{
+    color: #94a3b8;
+    font-size: 11px;
+}
+
+.book-slot-loading
+{
+    color: #2563eb !important;
+}
+
+.book-slots
+{
+    display: grid;
+    grid-template-columns:
+        repeat(
+            4,
+            minmax(0, 1fr)
+        );
+    gap: 9px;
+}
+
+.book-slot
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    min-height: 42px;
+    border: 1px solid #dbe3ef;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #334155;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.book-slot:hover:not(:disabled)
+{
+    border-color: #2563eb;
+    color: #2563eb;
+    background: #eff6ff;
+}
+
+.book-slot.selected
+{
+    border-color: #2563eb;
+    background: #2563eb;
+    color: #ffffff;
+}
+
+.book-slot.booked
+{
+    background: #f8fafc;
+    color: #cbd5e1;
+    border-color: #e2e8f0;
+    cursor: not-allowed;
+}
+
+.book-slot small
+{
+    font-size: 9px;
+}
+
+.book-slot-empty
+{
+    min-height: 130px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed #dbe3ef;
+    border-radius: 10px;
+    color: #94a3b8;
+    text-align: center;
+}
+
+.book-slot-empty p
+{
+    margin: 9px 0 3px;
+    color: #64748b;
+    font-size: 13px;
+}
+
+.book-slot-empty span
+{
+    color: #94a3b8;
+    font-size: 11px;
+}
+
+.book-confirm-button
+{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 47px;
+    border: none;
+    border-radius: 9px;
+    background: #2563eb;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.book-confirm-button:hover:not(:disabled)
+{
+    background: #1d4ed8;
+}
+
+.book-confirm-button:disabled
+{
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.book-doctor-photo
+{
+    height: 210px;
+    background: #eff6ff;
+}
+
+.book-doctor-photo img
+{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.book-doctor-placeholder
+{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #2563eb;
+}
+
+.book-doctor-info
+{
+    padding: 21px 22px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.book-doctor-info > span
+{
+    color: #94a3b8;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.book-doctor-info h2
+{
+    margin: 5px 0;
+    color: #172033;
+    font-size: 20px;
+}
+
+.book-doctor-info p
+{
+    margin: 4px 0;
+    color: #64748b;
+    font-size: 12px;
+}
+
+.book-doctor-info .book-specialization
+{
+    color: #2563eb;
+    font-weight: 600;
+}
+
+.book-doctor-details
+{
+    padding: 20px 22px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.book-doctor-details > div
+{
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 10px 0;
+}
+
+.book-doctor-details span
+{
+    color: #94a3b8;
+    font-size: 11px;
+}
+
+.book-doctor-details strong
+{
+    color: #334155;
+    font-size: 12px;
+    text-align: right;
+}
+
+.book-summary
+{
+    margin: 20px;
+    padding: 16px;
+    border-radius: 10px;
+    background: #eff6ff;
+}
+
+.book-summary h3
+{
+    margin: 0 0 12px;
+    color: #172033;
+    font-size: 14px;
+}
+
+.book-summary div
+{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    color: #2563eb;
+    font-size: 12px;
+}
+
+.book-message
+{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+    padding: 12px 15px;
+    border-radius: 9px;
+    font-size: 13px;
+}
+
+.book-message.error
+{
+    border: 1px solid #fecaca;
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+.book-message.success
+{
+    border: 1px solid #bbf7d0;
+    background: #f0fdf4;
+    color: #15803d;
+}
+
+.book-loading
+{
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #64748b;
+}
+
+.book-error-state
+{
+    min-height: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e2e8f0;
+    border-radius: 15px;
+    background: #ffffff;
+    color: #94a3b8;
+    text-align: center;
+}
+
+.book-error-state h2
+{
+    margin: 12px 0 6px;
+    color: #334155;
+}
+
+.book-error-state p
+{
+    margin: 0;
+    color: #64748b;
+    font-size: 13px;
+}
+
+@media (max-width: 950px)
+{
+    .book-layout
+    {
+        grid-template-columns: 1fr;
+    }
+
+    .book-doctor-card
+    {
+        order: -1;
+    }
+}
+
+@media (max-width: 650px)
+{
+    .book-appointment-page
+    {
+        padding: 18px;
+    }
+
+    .book-card-body,
+    .book-card-header
+    {
+        padding: 18px;
+    }
+
+    .book-slots
+    {
+        grid-template-columns:
+            repeat(
+                2,
+                1fr
+            );
+    }
+
+    .book-doctor-photo
+    {
+        height: 180px;
+    }
+}

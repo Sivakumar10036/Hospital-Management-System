@@ -1,0 +1,507 @@
+.superintendent-app
+{
+    min-height: 100vh;
+
+    display: flex;
+
+    background: #f5f7fb;
+}
+
+.superintendent-sidebar
+{
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 250px;
+
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+
+    box-sizing: border-box;
+
+    background: #ffffff;
+
+    border-right: 1px solid #e5eaf2;
+
+    z-index: 1000;
+}
+
+.superintendent-sidebar-header
+{
+    min-height: 76px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 20px;
+
+    border-bottom: 1px solid #edf1f7;
+}
+
+.superintendent-brand
+{
+    display: flex;
+    align-items: center;
+
+    gap: 11px;
+}
+
+.superintendent-brand-icon
+{
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 11px;
+
+    background: #eff6ff;
+
+    color: #2563eb;
+}
+
+.superintendent-brand h2
+{
+    margin: 0 0 2px;
+
+    color: #172033;
+
+    font-size: 17px;
+}
+
+.superintendent-brand span
+{
+    color: #94a3b8;
+
+    font-size: 9px;
+}
+
+.superintendent-mobile-close
+{
+    display: none;
+
+    border: none;
+
+    background: transparent;
+
+    color: #64748b;
+
+    cursor: pointer;
+}
+
+.superintendent-role-box
+{
+    display: flex;
+    align-items: center;
+
+    gap: 11px;
+
+    margin: 18px 15px;
+
+    padding: 12px;
+
+    border-radius: 11px;
+
+    background: #f8fafc;
+}
+
+.superintendent-role-icon
+{
+    width: 36px;
+    height: 36px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 9px;
+
+    background: #eff6ff;
+
+    color: #2563eb;
+}
+
+.superintendent-role-box div:last-child
+{
+    display: flex;
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+.superintendent-role-box span
+{
+    color: #94a3b8;
+
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.superintendent-role-box strong
+{
+    color: #334155;
+
+    font-size: 12px;
+}
+
+.superintendent-navigation
+{
+    display: flex;
+    flex-direction: column;
+
+    gap: 5px;
+
+    padding: 0 12px;
+
+    overflow-y: auto;
+}
+
+.superintendent-menu-title
+{
+    margin: 8px 9px 10px;
+
+    color: #94a3b8;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+}
+
+.superintendent-nav-link
+{
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 11px 13px;
+
+    border-radius: 9px;
+
+    color: #64748b;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    text-decoration: none;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+.superintendent-nav-link:hover
+{
+    background: #f8fafc;
+
+    color: #2563eb;
+}
+
+.superintendent-nav-link.active
+{
+    background: #eff6ff;
+
+    color: #2563eb;
+}
+
+.superintendent-sidebar-footer
+{
+    margin-top: auto;
+
+    padding: 15px;
+
+    border-top: 1px solid #edf1f7;
+}
+
+.superintendent-logout-button
+{
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+
+    gap: 11px;
+
+    padding: 11px 13px;
+
+    border: none;
+
+    border-radius: 9px;
+
+    background: transparent;
+
+    color: #64748b;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.superintendent-logout-button:hover
+{
+    background: #fef2f2;
+
+    color: #dc2626;
+}
+
+.superintendent-main
+{
+    width: calc(100% - 250px);
+
+    min-height: 100vh;
+
+    margin-left: 250px;
+}
+
+.superintendent-topbar
+{
+    height: 76px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 28px;
+
+    box-sizing: border-box;
+
+    background: #ffffff;
+
+    border-bottom: 1px solid #e5eaf2;
+}
+
+.superintendent-topbar-left
+{
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+}
+
+.superintendent-topbar-left > div
+{
+    display: flex;
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+.superintendent-topbar-left span
+{
+    color: #94a3b8;
+
+    font-size: 10px;
+}
+
+.superintendent-topbar-left h1
+{
+    margin: 0;
+
+    color: #172033;
+
+    font-size: 18px;
+}
+
+.superintendent-menu-button
+{
+    display: none;
+
+    border: none;
+
+    background: transparent;
+
+    color: #334155;
+
+    cursor: pointer;
+}
+
+.superintendent-topbar-right
+{
+    display: flex;
+    align-items: center;
+
+    gap: 18px;
+}
+
+.superintendent-notification-button
+{
+    position: relative;
+
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #e5eaf2;
+
+    border-radius: 10px;
+
+    background: #ffffff;
+
+    color: #64748b;
+
+    cursor: pointer;
+}
+
+.superintendent-notification-button:hover
+{
+    background: #f8fafc;
+
+    color: #2563eb;
+}
+
+.superintendent-notification-dot
+{
+    position: absolute;
+
+    top: 8px;
+    right: 8px;
+
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: #2563eb;
+}
+
+.superintendent-user
+{
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+}
+
+.superintendent-user-avatar
+{
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #eff6ff;
+
+    color: #2563eb;
+}
+
+.superintendent-user-info
+{
+    display: flex;
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+.superintendent-user-info strong
+{
+    color: #172033;
+
+    font-size: 12px;
+}
+
+.superintendent-user-info span
+{
+    color: #94a3b8;
+
+    font-size: 10px;
+}
+
+.superintendent-content
+{
+    width: 100%;
+
+    min-height: calc(100vh - 76px);
+
+    box-sizing: border-box;
+}
+
+.superintendent-sidebar-overlay
+{
+    display: none;
+}
+
+@media (max-width: 900px)
+{
+    .superintendent-sidebar
+    {
+        transform: translateX(-100%);
+
+        transition:
+            transform 0.25s ease;
+    }
+
+    .superintendent-sidebar.mobile-open
+    {
+        transform: translateX(0);
+    }
+
+    .superintendent-mobile-close
+    {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .superintendent-sidebar-overlay
+    {
+        display: block;
+
+        position: fixed;
+
+        inset: 0;
+
+        background:
+            rgba(15, 23, 42, 0.35);
+
+        z-index: 999;
+    }
+
+    .superintendent-main
+    {
+        width: 100%;
+
+        margin-left: 0;
+    }
+
+    .superintendent-menu-button
+    {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 600px)
+{
+    .superintendent-topbar
+    {
+        padding: 0 16px;
+    }
+
+    .superintendent-user-info
+    {
+        display: none;
+    }
+
+    .superintendent-topbar-left h1
+    {
+        font-size: 15px;
+    }
+}

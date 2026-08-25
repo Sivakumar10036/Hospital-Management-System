@@ -1,0 +1,773 @@
+.patient-dashboard-page
+{
+    min-height: 100vh;
+    background: #f5f7fb;
+    padding: 32px;
+    box-sizing: border-box;
+}
+
+.patient-dashboard-container
+{
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+
+/* ========================= */
+/* HEADER */
+/* ========================= */
+
+.patient-dashboard-header
+{
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    gap: 24px;
+
+    margin-bottom: 30px;
+}
+
+.patient-dashboard-header > div
+{
+    min-width: 0;
+}
+
+.patient-eyebrow
+{
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #2563eb;
+
+    font-size: 12px;
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+}
+
+.patient-dashboard-header h1
+{
+    margin: 0 0 8px;
+
+    color: #172033;
+
+    font-size: 32px;
+    line-height: 1.2;
+
+    font-weight: 750;
+}
+
+.patient-dashboard-header p
+{
+    margin: 0;
+
+    color: #718096;
+
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+
+/* ========================= */
+/* REFRESH BUTTON */
+/* ========================= */
+
+.patient-refresh-button
+{
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    flex-shrink: 0;
+
+    padding: 10px 16px;
+
+    border: 1px solid #dbe3ef;
+    border-radius: 9px;
+
+    background: #ffffff;
+
+    color: #2563eb;
+
+    font-size: 13px;
+    font-weight: 650;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.patient-refresh-button:hover
+{
+    background: #eff6ff;
+
+    border-color: #bfdbfe;
+}
+
+.patient-refresh-button:disabled
+{
+    opacity: 0.6;
+
+    cursor: not-allowed;
+}
+
+.patient-spin
+{
+    animation:
+        patient-spin
+        1s linear infinite;
+}
+
+@keyframes patient-spin
+{
+    from
+    {
+        transform: rotate(0deg);
+    }
+
+    to
+    {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* ========================= */
+/* ERROR */
+/* ========================= */
+
+.patient-dashboard-error
+{
+    margin-bottom: 24px;
+
+    padding: 14px 18px;
+
+    border: 1px solid #fecaca;
+    border-radius: 10px;
+
+    background: #fef2f2;
+
+    color: #b91c1c;
+
+    font-size: 14px;
+}
+
+
+/* ========================= */
+/* STATISTICS */
+/* ========================= */
+
+.patient-stat-grid
+{
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 20px;
+
+    width: 100%;
+
+    margin-bottom: 28px;
+}
+
+.patient-stat-card
+{
+    min-width: 0;
+
+    min-height: 108px;
+
+    box-sizing: border-box;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 20px;
+
+    border: 1px solid #e5eaf2;
+    border-radius: 16px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 4px 16px
+        rgba(30, 64, 175, 0.04);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.patient-stat-card:hover
+{
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 24px
+        rgba(30, 64, 175, 0.08);
+}
+
+.patient-stat-icon
+{
+    width: 52px;
+    height: 52px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 14px;
+}
+
+.patient-stat-icon.blue
+{
+    background: #eff6ff;
+
+    color: #2563eb;
+}
+
+.patient-stat-icon.green
+{
+    background: #ecfdf5;
+
+    color: #059669;
+}
+
+.patient-stat-icon.purple
+{
+    background: #f5f3ff;
+
+    color: #7c3aed;
+}
+
+.patient-stat-icon.orange
+{
+    background: #fff7ed;
+
+    color: #ea580c;
+}
+
+.patient-stat-card p
+{
+    margin: 0 0 6px;
+
+    color: #718096;
+
+    font-size: 13px;
+    line-height: 1.3;
+}
+
+.patient-stat-card h2
+{
+    margin: 0;
+
+    color: #172033;
+
+    font-size: 27px;
+    line-height: 1;
+
+    font-weight: 750;
+}
+
+
+/* ========================= */
+/* ACTION CARDS */
+/* ========================= */
+
+.patient-action-grid
+{
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 20px;
+
+    width: 100%;
+
+    margin-bottom: 28px;
+}
+
+.patient-action-card
+{
+    min-width: 0;
+
+    min-height: 145px;
+
+    box-sizing: border-box;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 17px;
+
+    padding: 22px;
+
+    border: 1px solid #e5eaf2;
+    border-radius: 17px;
+
+    background: #ffffff;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 4px 16px
+        rgba(30, 64, 175, 0.04);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.patient-action-card:hover
+{
+    transform: translateY(-3px);
+
+    border-color: #bfdbfe;
+
+    box-shadow:
+        0 10px 28px
+        rgba(30, 64, 175, 0.09);
+}
+
+.patient-action-icon
+{
+    width: 58px;
+    height: 58px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 15px;
+
+    background: #eff6ff;
+
+    color: #2563eb;
+}
+
+.patient-action-icon.green
+{
+    background: #ecfdf5;
+
+    color: #059669;
+}
+
+.patient-action-icon.purple
+{
+    background: #f5f3ff;
+
+    color: #7c3aed;
+}
+
+.patient-action-content
+{
+    flex: 1;
+
+    min-width: 0;
+}
+
+.patient-action-content h2
+{
+    margin: 0 0 7px;
+
+    color: #172033;
+
+    font-size: 18px;
+    line-height: 1.3;
+}
+
+.patient-action-content p
+{
+    margin: 0 0 10px;
+
+    color: #718096;
+
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.patient-action-content span
+{
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    color: #2563eb;
+
+    font-size: 13px;
+    font-weight: 700;
+}
+
+
+/* ========================= */
+/* UPCOMING APPOINTMENTS */
+/* ========================= */
+
+.patient-upcoming-card
+{
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 25px;
+
+    border: 1px solid #e5eaf2;
+    border-radius: 18px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 4px 18px
+        rgba(30, 64, 175, 0.04);
+}
+
+.patient-section-header
+{
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-bottom: 20px;
+}
+
+.patient-section-header h2
+{
+    margin: 0 0 5px;
+
+    color: #172033;
+
+    font-size: 20px;
+}
+
+.patient-section-header p
+{
+    margin: 0;
+
+    color: #718096;
+
+    font-size: 13px;
+}
+
+.patient-view-all-button
+{
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    padding: 8px 0;
+
+    border: none;
+
+    background: transparent;
+
+    color: #2563eb;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+.patient-view-all-button:hover
+{
+    color: #1d4ed8;
+}
+
+
+/* ========================= */
+/* EMPTY STATE */
+/* ========================= */
+
+.patient-empty-state
+{
+    min-height: 220px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    color: #94a3b8;
+}
+
+.patient-empty-state h3
+{
+    margin: 8px 0 6px;
+
+    color: #334155;
+
+    font-size: 17px;
+}
+
+.patient-empty-state p
+{
+    margin: 0 0 16px;
+
+    color: #718096;
+
+    font-size: 13px;
+}
+
+.patient-primary-button
+{
+    padding: 10px 18px;
+
+    border: none;
+    border-radius: 9px;
+
+    background: #2563eb;
+
+    color: #ffffff;
+
+    font-size: 13px;
+    font-weight: 650;
+
+    cursor: pointer;
+}
+
+.patient-primary-button:hover
+{
+    background: #1d4ed8;
+}
+
+
+/* ========================= */
+/* APPOINTMENT LIST */
+/* ========================= */
+
+.patient-appointment-list
+{
+    display: flex;
+
+    flex-direction: column;
+}
+
+.patient-appointment-item
+{
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 15px 0;
+
+    border-bottom: 1px solid #edf1f7;
+}
+
+.patient-appointment-item:last-child
+{
+    border-bottom: none;
+}
+
+.patient-appointment-icon
+{
+    width: 43px;
+    height: 43px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 11px;
+
+    background: #eff6ff;
+
+    color: #2563eb;
+}
+
+.patient-appointment-info
+{
+    flex: 1;
+
+    min-width: 0;
+}
+
+.patient-appointment-info h3
+{
+    margin: 0 0 5px;
+
+    color: #172033;
+
+    font-size: 15px;
+}
+
+.patient-appointment-info p
+{
+    margin: 0;
+
+    color: #718096;
+
+    font-size: 13px;
+}
+
+
+/* ========================= */
+/* STATUS */
+/* ========================= */
+
+.patient-status
+{
+    padding: 6px 11px;
+
+    border-radius: 20px;
+
+    font-size: 11px;
+    font-weight: 750;
+
+    text-transform: capitalize;
+}
+
+.patient-status.booked
+{
+    background: #dbeafe;
+
+    color: #1d4ed8;
+}
+
+.patient-status.confirmed
+{
+    background: #dcfce7;
+
+    color: #15803d;
+}
+
+.patient-status.completed
+{
+    background: #ede9fe;
+
+    color: #6d28d9;
+}
+
+.patient-status.cancelled
+{
+    background: #fee2e2;
+
+    color: #dc2626;
+}
+
+.patient-status.no-show
+{
+    background: #fef3c7;
+
+    color: #b45309;
+}
+
+
+/* ========================= */
+/* TABLET */
+/* ========================= */
+
+@media (max-width: 1100px)
+{
+    .patient-dashboard-page
+    {
+        padding: 26px;
+    }
+
+    .patient-stat-grid
+    {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .patient-action-grid
+    {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+}
+
+
+/* ========================= */
+/* MOBILE */
+/* ========================= */
+
+@media (max-width: 700px)
+{
+    .patient-dashboard-page
+    {
+        padding: 18px;
+    }
+
+    .patient-dashboard-header
+    {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+    .patient-dashboard-header h1
+    {
+        font-size: 27px;
+    }
+
+    .patient-refresh-button
+    {
+        width: 100%;
+    }
+
+    .patient-stat-grid
+    {
+        grid-template-columns: 1fr;
+    }
+
+    .patient-action-grid
+    {
+        grid-template-columns: 1fr;
+    }
+
+    .patient-stat-card
+    {
+        min-height: 95px;
+    }
+
+    .patient-action-card
+    {
+        min-height: 125px;
+    }
+
+    .patient-section-header
+    {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+    .patient-upcoming-card
+    {
+        padding: 20px;
+    }
+}
