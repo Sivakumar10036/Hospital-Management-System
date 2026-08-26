@@ -46,6 +46,7 @@ app.use(
     {
         origin:
             "http://localhost:3000",
+            "https://hospital-management-system-ser.vercel.app"
 
         credentials:
             true,
