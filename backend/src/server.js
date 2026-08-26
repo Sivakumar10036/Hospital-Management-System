@@ -16,6 +16,7 @@ const path =
 const connectDatabase =
     require("./config/db");
 
+
 const authRoutes =
     require("./routes/authRoutes");
 
@@ -34,55 +35,157 @@ const appointmentRoutes =
 const patientRoutes =
     require("./routes/patientRoutes");
 
+
+/* =========================================
+   LOAD ENVIRONMENT VARIABLES
+========================================= */
+
 dotenv.config();
+
+
+/* =========================================
+   CREATE EXPRESS APP
+========================================= */
 
 const app =
     express();
 
+
+/* =========================================
+   CONNECT DATABASE
+========================================= */
+
 connectDatabase();
+
+
+/* =========================================
+   CORS CONFIGURATION
+========================================= */
+
+const allowedOrigins =
+[
+    "http://localhost:3000",
+
+    "https://hospital-management-system-ser.vercel.app",
+
+    "https://hospital-management-system-wduj-3jnsm2f8p-siva-kumar-s-projects.vercel.app"
+];
+
 
 app.use(
     cors(
-    {
-        origin:
-            "http://localhost:3000",
-            "https://hospital-management-system-ser.vercel.app"
+        {
+            origin:
+                function(
+                    origin,
+                    callback
+                )
+                {
+                    /*
+                    Allow requests that do not
+                    contain an Origin header.
 
-        credentials:
-            true,
+                    Example:
+                    Postman
+                    server-to-server requests
+                    */
 
-        methods:
-        [
-            "GET",
-            "POST",
-            "PUT",
-            "PATCH",
-            "DELETE",
-            "OPTIONS"
-        ],
+                    if (!origin)
+                    {
+                        return callback(
+                            null,
+                            true
+                        );
+                    }
 
-        allowedHeaders:
-        [
-            "Content-Type",
-            "Authorization"
-        ]
-    })
+
+                    /*
+                    Check whether the frontend
+                    origin is allowed.
+                    */
+
+                    if (
+                        allowedOrigins.includes(
+                            origin
+                        )
+                    )
+                    {
+                        return callback(
+                            null,
+                            true
+                        );
+                    }
+
+
+                    console.log(
+                        "CORS blocked origin:",
+                        origin
+                    );
+
+
+                    return callback(
+                        new Error(
+                            "Not allowed by CORS"
+                        )
+                    );
+                },
+
+
+            credentials:
+                true,
+
+
+            methods:
+            [
+                "GET",
+                "POST",
+                "PUT",
+                "PATCH",
+                "DELETE",
+                "OPTIONS"
+            ],
+
+
+            allowedHeaders:
+            [
+                "Content-Type",
+                "Authorization"
+            ]
+        }
+    )
 );
+
+
+/* =========================================
+   BODY PARSERS
+========================================= */
 
 app.use(
     express.json()
 );
 
+
 app.use(
     express.urlencoded(
-    {
-        extended: true
-    })
+        {
+            extended: true
+        }
+    )
 );
+
+
+/* =========================================
+   COOKIE PARSER
+========================================= */
 
 app.use(
     cookieParser()
 );
+
+
+/* =========================================
+   STATIC UPLOADS
+========================================= */
 
 app.use(
     "/uploads",
@@ -94,35 +197,70 @@ app.use(
     )
 );
 
+
+/* =========================================
+   AUTH ROUTES
+========================================= */
+
 app.use(
     "/api/auth",
     authRoutes
 );
+
+
+/* =========================================
+   ADMIN ROUTES
+========================================= */
 
 app.use(
     "/api/admin",
     adminRoutes
 );
 
+
+/* =========================================
+   DOCTOR ROUTES
+========================================= */
+
 app.use(
     "/api/doctor",
     doctorRoutes
 );
+
+
+/* =========================================
+   SUPERINTENDENT ROUTES
+========================================= */
 
 app.use(
     "/api/superintendents",
     superintendentRoutes
 );
 
+
+/* =========================================
+   APPOINTMENT ROUTES
+========================================= */
+
 app.use(
     "/api/appointments",
     appointmentRoutes
 );
 
+
+/* =========================================
+   PATIENT ROUTES
+========================================= */
+
 app.use(
     "/api/patients",
     patientRoutes
 );
+
+
+/* =========================================
+   ROOT ROUTE
+========================================= */
 
 app.get(
     "/",
@@ -132,15 +270,21 @@ app.get(
     ) =>
     {
         response.json(
-        {
-            success:
-                true,
+            {
+                success:
+                    true,
 
-            message:
-                "Hospital Management System API is running"
-        });
+                message:
+                    "Hospital Management System API is running"
+            }
+        );
     }
 );
+
+
+/* =========================================
+   HEALTH CHECK
+========================================= */
 
 app.get(
     "/api/health",
@@ -150,19 +294,26 @@ app.get(
     ) =>
     {
         response.json(
-        {
-            success:
-                true,
+            {
+                success:
+                    true,
 
-            message:
-                "Server is healthy"
-        });
+                message:
+                    "Server is healthy"
+            }
+        );
     }
 );
+
+
+/* =========================================
+   SERVER
+========================================= */
 
 const PORT =
     process.env.PORT ||
     5000;
+
 
 app.listen(
     PORT,
