@@ -6,6 +6,7 @@ const
 {
     registerPatient,
     login,
+    doctorLogin,
     getCurrentUser
 } =
     require("../controllers/authController");
@@ -28,6 +29,12 @@ router.post(
 router.post(
     "/login",
     login
+);
+
+
+router.post(
+    "/doctor-login",
+    doctorLogin
 );
 
 

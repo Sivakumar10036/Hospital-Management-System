@@ -1,5 +1,4 @@
-import
-{
+import React, {
     createContext,
     useContext,
     useEffect,
@@ -7,11 +6,11 @@ import
 }
 from "react";
 
-
-import
-{
+import {
     loginUser,
-    registerUser
+    doctorLoginUser,
+    registerUser,
+    getCurrentUser
 }
 from "../services/authService";
 
@@ -54,7 +53,6 @@ export const AuthProvider =
                     "token"
                 );
 
-
             const storedUser =
                 localStorage.getItem(
                     "user"
@@ -73,45 +71,24 @@ export const AuthProvider =
                             storedUser
                         );
 
-
-                    const role =
-                        parsedUser?.role
-                            ?.toString()
-                            .trim()
-                            .toUpperCase();
-
-
-                    if (
-                        role
-                    )
-                    {
-                        setToken(
-                            storedToken
+                    const normalizedUser =
+                        normalizeUser(
+                            parsedUser
                         );
 
 
-                        setUser(
-                        {
-                            ...parsedUser,
-                            role
-                        });
-                    }
-                    else
-                    {
-                        localStorage.removeItem(
-                            "token"
-                        );
+                    setToken(
+                        storedToken
+                    );
 
-
-                        localStorage.removeItem(
-                            "user"
-                        );
-                    }
+                    setUser(
+                        normalizedUser
+                    );
                 }
                 catch (error)
                 {
                     console.error(
-                        "Authentication restore error:",
+                        "Failed to restore authentication:",
                         error
                     );
 
@@ -120,10 +97,14 @@ export const AuthProvider =
                         "token"
                     );
 
-
                     localStorage.removeItem(
                         "user"
                     );
+
+
+                    setToken(null);
+
+                    setUser(null);
                 }
             }
 
@@ -134,148 +115,229 @@ export const AuthProvider =
     );
 
 
-    const login =
-        async (
-            email,
-            password
-        ) =>
+    const normalizeUser =
+    (
+        receivedUser
+    ) =>
+    {
+        if (!receivedUser)
         {
-            const response =
-                await loginUser(
-                    email,
-                    password
-                );
+            return null;
+        }
 
 
-            if (
-                !response?.success
-            )
-            {
-                throw new Error(
-                    response?.message ||
-                    "Login failed"
-                );
-            }
+        const normalizedRole =
+        (
+            receivedUser.role ||
+            receivedUser.user?.role ||
+            receivedUser.userRole
+        )
+        ?.toString()
+        .trim()
+        .toUpperCase();
 
 
-            if (
-                !response.token
-            )
-            {
-                throw new Error(
-                    "Authentication token was not received"
-                );
-            }
+        return {
+            ...receivedUser,
+
+            role:
+                normalizedRole
+        };
+    };
 
 
-            if (
-                !response.user
-            )
-            {
-                throw new Error(
-                    "User information was not received"
-                );
-            }
+    const saveAuthentication =
+    (
+        authenticationData
+    ) =>
+    {
+        const receivedToken =
+            authenticationData?.token ||
+            authenticationData?.accessToken ||
+            authenticationData?.data?.token ||
+            authenticationData?.data?.accessToken;
 
 
-            const role =
-                response.user.role
-                    ?.toString()
-                    .trim()
-                    .toUpperCase();
+        const rawUser =
+            authenticationData?.user ||
+            authenticationData?.data?.user;
 
 
-            if (
-                !role
-            )
-            {
-                throw new Error(
-                    "User role was not received"
-                );
-            }
-
-
-            const normalizedUser =
-            {
-                ...response.user,
-
-                role
-            };
-
-
-            localStorage.setItem(
-                "token",
-                response.token
+        const receivedUser =
+            normalizeUser(
+                rawUser
             );
 
 
+        if (receivedToken)
+        {
             localStorage.setItem(
-                "user",
-                JSON.stringify(
-                    normalizedUser
-                )
+                "token",
+                receivedToken
             );
 
 
             setToken(
-                response.token
+                receivedToken
+            );
+        }
+
+
+        if (receivedUser)
+        {
+            localStorage.setItem(
+                "user",
+                JSON.stringify(
+                    receivedUser
+                )
             );
 
 
             setUser(
-                normalizedUser
+                receivedUser
+            );
+        }
+
+
+        return {
+            token:
+                receivedToken,
+
+            user:
+                receivedUser
+        };
+    };
+
+
+    const login =
+    async (
+        email,
+        password
+    ) =>
+    {
+        const response =
+            await loginUser(
+                email,
+                password
             );
 
 
-            return {
-                token:
-                    response.token,
+        return saveAuthentication(
+            response
+        );
+    };
 
-                user:
-                    normalizedUser,
 
-                profile:
-                    response.profile
-            };
-        };
+    const doctorLogin =
+    async (
+        email,
+        password
+    ) =>
+    {
+        const response =
+            await doctorLoginUser(
+                email,
+                password
+            );
+
+
+        return saveAuthentication(
+            response
+        );
+    };
 
 
     const register =
-        async (
-            userData
-        ) =>
-        {
-            return await registerUser(
+    async (
+        userData
+    ) =>
+    {
+        const response =
+            await registerUser(
                 userData
             );
-        };
+
+
+        return response;
+    };
+
+
+    const refreshUser =
+    async () =>
+    {
+        try
+        {
+            const response =
+                await getCurrentUser();
+
+
+            const rawUser =
+                response?.user ||
+                response?.data?.user ||
+                response?.data;
+
+
+            const refreshedUser =
+                normalizeUser(
+                    rawUser
+                );
+
+
+            if (refreshedUser)
+            {
+                localStorage.setItem(
+                    "user",
+                    JSON.stringify(
+                        refreshedUser
+                    )
+                );
+
+
+                setUser(
+                    refreshedUser
+                );
+            }
+
+
+            return refreshedUser;
+        }
+        catch (error)
+        {
+            console.error(
+                "Failed to refresh user:",
+                error
+            );
+
+
+            return null;
+        }
+    };
 
 
     const logout =
-        () =>
-        {
-            localStorage.removeItem(
-                "token"
-            );
+    () =>
+    {
+        localStorage.removeItem(
+            "token"
+        );
 
 
-            localStorage.removeItem(
-                "user"
-            );
+        localStorage.removeItem(
+            "user"
+        );
 
 
-            setToken(null);
+        setToken(null);
 
 
-            setUser(null);
-        };
+        setUser(null);
+    };
 
 
     const isAuthenticated =
         Boolean(
             token &&
-            user &&
-            user.role
+            user
         );
 
 
@@ -286,7 +348,9 @@ export const AuthProvider =
                 token,
                 loading,
                 login,
+                doctorLogin,
                 register,
+                refreshUser,
                 logout,
                 isAuthenticated
             }}
@@ -298,12 +362,12 @@ export const AuthProvider =
 
 
 export const useAuth =
-    () =>
-    {
-        return useContext(
-            AuthContext
-        );
-    };
+() =>
+{
+    return useContext(
+        AuthContext
+    );
+};
 
 
 export {

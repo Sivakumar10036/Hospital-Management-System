@@ -1,5 +1,4 @@
-import api
-    from "../api/axios";
+import api from "../api/axios";
 
 
 export const loginUser =
@@ -12,12 +11,31 @@ export const loginUser =
         await api.post(
             "/auth/login",
             {
-                email:
-                    email.trim().toLowerCase(),
-
+                email,
                 password
             }
         );
+
+
+    return response.data;
+};
+
+
+export const doctorLoginUser =
+    async (
+        email,
+        password
+    ) =>
+{
+    const response =
+        await api.post(
+            "/auth/doctor-login",
+            {
+                email,
+                password
+            }
+        );
+
 
     return response.data;
 };
@@ -34,6 +52,7 @@ export const registerUser =
             userData
         );
 
+
     return response.data;
 };
 
@@ -45,6 +64,7 @@ export const getCurrentUser =
         await api.get(
             "/auth/me"
         );
+
 
     return response.data;
 };

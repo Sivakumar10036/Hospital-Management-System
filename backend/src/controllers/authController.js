@@ -596,6 +596,7 @@
 // };
 
 
+
 const bcrypt =
     require("bcryptjs");
 
@@ -1102,6 +1103,224 @@ const login =
 };
 
 
+const doctorLogin =
+    async (
+        request,
+        response
+    ) =>
+{
+    try
+    {
+        const
+        {
+            email,
+            password
+        } =
+            request.body;
+
+
+        if (
+            !email ||
+            !password
+        )
+        {
+            return response.status(400).json(
+            {
+                success: false,
+
+                message:
+                    "Doctor email and password are required"
+            });
+        }
+
+
+        const normalizedEmail =
+            email
+                .trim()
+                .toLowerCase();
+
+
+        const user =
+            await User.findOne(
+            {
+                email:
+                    normalizedEmail
+            });
+
+
+        if (!user)
+        {
+            return response.status(401).json(
+            {
+                success: false,
+
+                message:
+                    "Invalid doctor email or password"
+            });
+        }
+
+
+        if (
+            user.role !==
+            "DOCTOR"
+        )
+        {
+            return response.status(403).json(
+            {
+                success: false,
+
+                message:
+                    "This account is not a doctor account"
+            });
+        }
+
+
+        if (
+            user.isActive === false
+        )
+        {
+            return response.status(403).json(
+            {
+                success: false,
+
+                message:
+                    "Doctor account has been deactivated"
+            });
+        }
+
+
+        const passwordMatches =
+            await bcrypt.compare(
+                password,
+                user.password
+            );
+
+
+        if (!passwordMatches)
+        {
+            return response.status(401).json(
+            {
+                success: false,
+
+                message:
+                    "Invalid doctor email or password"
+            });
+        }
+
+
+        const doctor =
+            await Doctor.findOne(
+            {
+                user:
+                    user._id
+            })
+            .populate(
+                "department"
+            );
+
+
+        if (!doctor)
+        {
+            return response.status(404).json(
+            {
+                success: false,
+
+                message:
+                    "Doctor profile not found"
+            });
+        }
+
+
+        if (
+            doctor.isActive === false
+        )
+        {
+            return response.status(403).json(
+            {
+                success: false,
+
+                message:
+                    "Doctor profile is inactive"
+            });
+        }
+
+
+        user.lastLogin =
+            new Date();
+
+
+        await user.save();
+
+
+        const token =
+            generateToken(
+                user._id,
+                user.role
+            );
+
+
+        return response.status(200).json(
+        {
+            success: true,
+
+            message:
+                "Doctor login successful",
+
+            token,
+
+            user:
+            {
+                id:
+                    user._id,
+
+                name:
+                    user.name,
+
+                email:
+                    user.email,
+
+                phone:
+                    user.phone,
+
+                role:
+                    user.role,
+
+                profilePhoto:
+                    user.profilePhoto,
+
+                isActive:
+                    user.isActive,
+
+                lastLogin:
+                    user.lastLogin
+            },
+
+            profile:
+                doctor
+        });
+    }
+    catch (error)
+    {
+        console.error(
+            "Doctor login error:",
+            error
+        );
+
+
+        return response.status(500).json(
+        {
+            success: false,
+
+            message:
+                "Doctor login failed",
+
+            error:
+                error.message
+        });
+    }
+};
+
+
 const getCurrentUser =
     async (
         request,
@@ -1193,6 +1412,8 @@ module.exports =
     registerPatient,
 
     login,
+
+    doctorLogin,
 
     getCurrentUser
 };
