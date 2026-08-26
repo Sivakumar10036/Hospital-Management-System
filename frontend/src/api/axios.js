@@ -5,7 +5,7 @@ const api =
         {
             baseURL:
                 process.env.REACT_APP_API_URL ||
-                "http://localhost:5000/api",
+                "https://hospital-management-system-1-c6kb.onrender.com/api",
 
             withCredentials:
                 true,
