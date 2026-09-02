@@ -12,8 +12,7 @@ import
     Clock,
     Users,
     ArrowRight,
-    RefreshCw,
-    LogOut
+    RefreshCw
 }
 from "lucide-react";
 
@@ -26,12 +25,6 @@ from "react-router-dom";
 import api
 from "../../api/axios";
 
-import
-{
-    useAuth
-}
-from "../../hooks/useAuth";
-
 import "./PatientDashboard.css";
 
 
@@ -40,11 +33,6 @@ const PatientDashboard =
 {
     const navigate =
         useNavigate();
-
-    const {
-        logout
-    } =
-        useAuth();
 
 
     const [dashboard, setDashboard] =
@@ -173,43 +161,6 @@ const PatientDashboard =
     };
 
 
-    const handleLogout =
-    () =>
-    {
-        const confirmed =
-            window.confirm(
-                "Are you sure you want to logout?"
-            );
-
-
-        if (!confirmed)
-        {
-            return;
-        }
-
-
-        try
-        {
-            logout();
-        }
-        catch (logoutError)
-        {
-            console.error(
-                "Logout error:",
-                logoutError
-            );
-        }
-
-
-        navigate(
-            "/login",
-            {
-                replace: true
-            }
-        );
-    };
-
-
     return (
         <div className="patient-dashboard-page">
 
@@ -237,42 +188,26 @@ const PatientDashboard =
                     </div>
 
 
-                    <div className="patient-header-actions">
+                    <button
+                        className="patient-refresh-button"
+                        onClick={fetchDashboard}
+                        disabled={loading}
+                    >
 
-                        <button
-                            className="patient-refresh-button"
-                            onClick={fetchDashboard}
-                            disabled={loading}
-                        >
+                        <RefreshCw
+                            size={17}
+                            className={
+                                loading
+                                ?
+                                "patient-spin"
+                                :
+                                ""
+                            }
+                        />
 
-                            <RefreshCw
-                                size={17}
-                                className={
-                                    loading
-                                        ? "patient-spin"
-                                        : ""
-                                }
-                            />
+                        Refresh
 
-                            Refresh
-
-                        </button>
-
-
-                        <button
-                            className="patient-logout-button"
-                            onClick={handleLogout}
-                        >
-
-                            <LogOut
-                                size={17}
-                            />
-
-                            Logout
-
-                        </button>
-
-                    </div>
+                    </button>
 
                 </div>
 
@@ -307,9 +242,7 @@ const PatientDashboard =
                             </p>
 
                             <h2>
-                                {
-                                    dashboard.availableDoctors
-                                }
+                                {dashboard.availableDoctors}
                             </h2>
 
                         </div>
@@ -334,9 +267,7 @@ const PatientDashboard =
                             </p>
 
                             <h2>
-                                {
-                                    dashboard.totalAppointments
-                                }
+                                {dashboard.totalAppointments}
                             </h2>
 
                         </div>
@@ -361,9 +292,7 @@ const PatientDashboard =
                             </p>
 
                             <h2>
-                                {
-                                    dashboard.upcomingAppointments
-                                }
+                                {dashboard.upcomingAppointments}
                             </h2>
 
                         </div>
@@ -388,9 +317,7 @@ const PatientDashboard =
                             </p>
 
                             <h2>
-                                {
-                                    dashboard.healthcareTeam
-                                }
+                                {dashboard.healthcareTeam}
                             </h2>
 
                         </div>
@@ -434,13 +361,10 @@ const PatientDashboard =
                             </p>
 
                             <span>
-
                                 Find Doctor
-
                                 <ArrowRight
                                     size={15}
                                 />
-
                             </span>
 
                         </div>
@@ -483,13 +407,10 @@ const PatientDashboard =
                             </p>
 
                             <span>
-
                                 View Appointments
-
                                 <ArrowRight
                                     size={15}
                                 />
-
                             </span>
 
                         </div>
@@ -532,13 +453,10 @@ const PatientDashboard =
                             </p>
 
                             <span>
-
                                 View Profile
-
                                 <ArrowRight
                                     size={15}
                                 />
-
                             </span>
 
                         </div>
@@ -594,139 +512,140 @@ const PatientDashboard =
 
                     {
                         loading
-                            ?
-                            (
-                                <div className="patient-empty-state">
+                        ?
+                        (
+                            <div className="patient-empty-state">
 
-                                    <RefreshCw
-                                        size={30}
-                                        className="patient-spin"
-                                    />
+                                <RefreshCw
+                                    size={30}
+                                    className="patient-spin"
+                                />
 
-                                    <p>
-                                        Loading appointments...
-                                    </p>
+                                <p>
+                                    Loading appointments...
+                                </p>
 
-                                </div>
-                            )
-                            :
-                            appointments.length === 0
-                                ?
-                                (
-                                    <div className="patient-empty-state">
+                            </div>
+                        )
+                        :
+                        appointments.length === 0
+                        ?
+                        (
+                            <div className="patient-empty-state">
 
-                                        <CalendarDays
-                                            size={42}
-                                        />
+                                <CalendarDays
+                                    size={42}
+                                />
 
-                                        <h3>
-                                            No Upcoming Appointments
-                                        </h3>
+                                <h3>
+                                    No Upcoming Appointments
+                                </h3>
 
-                                        <p>
-                                            You don't have any
-                                            upcoming appointments.
-                                        </p>
+                                <p>
+                                    You don't have any
+                                    upcoming appointments.
+                                </p>
 
-                                        <button
-                                            className="patient-primary-button"
-                                            onClick={() =>
-                                                navigate(
-                                                    "/patient/doctors"
-                                                )
-                                            }
-                                        >
-                                            Book an Appointment
-                                        </button>
+                                <button
+                                    className="patient-primary-button"
+                                    onClick={() =>
+                                        navigate(
+                                            "/patient/doctors"
+                                        )
+                                    }
+                                >
+                                    Book an Appointment
+                                </button>
 
-                                    </div>
-                                )
-                                :
-                                (
-                                    <div className="patient-appointment-list">
+                            </div>
+                        )
+                        :
+                        (
+                            <div className="patient-appointment-list">
 
-                                        {
-                                            appointments.map(
-                                                appointment =>
-                                                (
-                                                    <div
-                                                        className="patient-appointment-item"
-                                                        key={
-                                                            appointment._id
+                                {
+                                    appointments.map(
+                                        appointment =>
+                                        (
+                                            <div
+                                                className="patient-appointment-item"
+                                                key={
+                                                    appointment._id
+                                                }
+                                            >
+
+                                                <div className="patient-appointment-icon">
+
+                                                    <CalendarDays
+                                                        size={21}
+                                                    />
+
+                                                </div>
+
+
+                                                <div className="patient-appointment-info">
+
+                                                    <h3>
+                                                        {
+                                                            appointment.doctorName
                                                         }
-                                                    >
+                                                    </h3>
 
-                                                        <div className="patient-appointment-icon">
+                                                    <p>
 
-                                                            <CalendarDays
-                                                                size={21}
-                                                            />
+                                                        {
+                                                            appointment.specialization
+                                                        }
 
-                                                        </div>
+                                                        {
+                                                            appointment.department
+                                                            &&
+                                                            ` • ${appointment.department}`
+                                                        }
 
+                                                    </p>
 
-                                                        <div className="patient-appointment-info">
+                                                    <p>
 
-                                                            <h3>
-                                                                {
-                                                                    appointment.doctorName
-                                                                }
-                                                            </h3>
+                                                        {
+                                                            formatDate(
+                                                                appointment.appointmentDate
+                                                            )
+                                                        }
 
-                                                            <p>
+                                                        {" • "}
 
-                                                                {
-                                                                    appointment.specialization
-                                                                }
+                                                        {
+                                                            appointment.appointmentTime
+                                                        }
 
-                                                                {
-                                                                    appointment.department &&
-                                                                    ` • ${appointment.department}`
-                                                                }
+                                                    </p>
 
-                                                            </p>
-
-                                                            <p>
-
-                                                                {
-                                                                    formatDate(
-                                                                        appointment.appointmentDate
-                                                                    )
-                                                                }
-
-                                                                {" • "}
-
-                                                                {
-                                                                    appointment.appointmentTime
-                                                                }
-
-                                                            </p>
-
-                                                        </div>
+                                                </div>
 
 
-                                                        <span
-                                                            className={
-                                                                `patient-status ${
-                                                                    appointment.status
-                                                                        .toLowerCase()
-                                                                }`
-                                                            }
-                                                        >
-                                                            {
-                                                                formatStatus(
-                                                                    appointment.status
-                                                                )
-                                                            }
-                                                        </span>
+                                                <span
+                                                    className={
+                                                        `patient-status ${
+                                                            appointment.status
+                                                                .toLowerCase()
+                                                        }`
+                                                    }
+                                                >
+                                                    {
+                                                        formatStatus(
+                                                            appointment.status
+                                                        )
+                                                    }
+                                                </span>
 
-                                                    </div>
-                                                )
-                                            )
-                                        }
+                                            </div>
+                                        )
+                                    )
+                                }
 
-                                    </div>
-                                )
+                            </div>
+                        )
                     }
 
                 </div>
