@@ -1,140 +1,167 @@
-import React
-from "react";
+import React from "react";
 
-import
-{
+import {
     BrowserRouter,
     Routes,
     Route,
     Navigate
-}
-from "react-router-dom";
+} from "react-router-dom";
 
 
-import
-{
+/* =========================================================
+   AUTHENTICATION
+========================================================= */
+
+import {
     AuthProvider
-}
-from "./context/AuthContext";
-
+} from "./context/AuthContext";
 
 import ProtectedRoute
-from "./components/layout/ProtectedRoute";
+    from "./components/layout/ProtectedRoute";
 
+
+/* =========================================================
+   ADMIN
+========================================================= */
 
 import AdminLayout
-from "./components/admin/AdminLayout";
+    from "./components/admin/AdminLayout";
 
 import AdminDashboard
-from "./pages/admin/AdminDashboard";
+    from "./pages/admin/AdminDashboard";
 
 import AdminDoctors
-from "./pages/admin/AdminDoctors";
+    from "./pages/admin/AdminDoctors";
 
 import AdminPatients
-from "./pages/admin/AdminPatients";
+    from "./pages/admin/AdminPatients";
 
 import AdminDoctorForm
-from "./pages/admin/AdminDoctorForm";
+    from "./pages/admin/AdminDoctorForm";
 
 import AdminDoctorDetails
-from "./pages/admin/AdminDoctorDetails";
+    from "./pages/admin/AdminDoctorDetails";
 
 import AdminDoctorEdit
-from "./pages/admin/AdminDoctorEdit";
+    from "./pages/admin/AdminDoctorEdit";
 
 import AdminAppointments
-from "./pages/admin/AdminAppointments";
+    from "./pages/admin/AdminAppointments";
 
 import AppointmentDetails
-from "./pages/admin/AppointmentDetails";
+    from "./pages/admin/AppointmentDetails";
 
 import AdminDepartments
-from "./pages/admin/AdminDepartments";
+    from "./pages/admin/AdminDepartments";
 
 import AdminReports
-from "./pages/admin/AdminReports";
+    from "./pages/admin/AdminReports";
 
 import AdminSettings
-from "./pages/admin/AdminSettings";
+    from "./pages/admin/AdminSettings";
 
 import AdminSuperintendents
-from "./pages/admin/AdminSuperintendents";
+    from "./pages/admin/AdminSuperintendents";
 
+
+/* =========================================================
+   PATIENT
+========================================================= */
 
 import PatientDashboard
-from "./pages/patient/PatientDashboard";
+    from "./pages/patient/PatientDashboard";
 
 import PatientDoctors
-from "./pages/patient/PatientDoctors";
+    from "./pages/patient/PatientDoctors";
 
 import PatientDoctorDetails
-from "./pages/patient/PatientDoctorDetails";
+    from "./pages/patient/PatientDoctorDetails";
 
 import BookAppointment
-from "./pages/patient/BookAppointment";
+    from "./pages/patient/BookAppointment";
 
 import PatientAppointments
-from "./pages/patient/PatientAppointments";
+    from "./pages/patient/PatientAppointments";
 
 import PatientProfile
-from "./pages/patient/PatientProfile";
+    from "./pages/patient/PatientProfile";
 
 
-import SuperintendentLayout
-from "./components/superintendent/SuperintendentLayout";
-
-import SuperintendentDashboard
-from "./pages/superintendent/SuperintendentDashboard";
-
-import SuperintendentDoctors
-from "./pages/superintendent/SuperintendentDoctors";
-
-import SuperintendentPatients
-from "./pages/superintendent/SuperintendentPatients";
-
-import SuperintendentAppointments
-from "./pages/superintendent/SuperintendentAppointments";
-
-import SuperintendentDepartments
-from "./pages/superintendent/SuperintendentDepartments";
-
-import SuperintendentReports
-from "./pages/superintendent/SuperintendentReports";
-
-import SuperintendentSettings
-from "./pages/superintendent/SuperintendentSettings";
-
+/* =========================================================
+   DOCTOR
+========================================================= */
 
 import DoctorDashboard
-from "./pages/doctor/DoctorDashboard";
+    from "./pages/doctor/DoctorDashboard";
 
 import DoctorAppointments
-from "./pages/doctor/DoctorAppointments";
+    from "./pages/doctor/DoctorAppointments";
 
 import DoctorSchedule
-from "./pages/doctor/DoctorSchedule";
+    from "./pages/doctor/DoctorSchedule";
 
+
+/* =========================================================
+   SUPERINTENDENT
+========================================================= */
+
+import SuperintendentLayout
+    from "./components/superintendent/SuperintendentLayout";
+
+import SuperintendentDashboard
+    from "./pages/superintendent/SuperintendentDashboard";
+
+import SuperintendentDoctors
+    from "./pages/superintendent/SuperintendentDoctors";
+
+import SuperintendentPatients
+    from "./pages/superintendent/SuperintendentPatients";
+
+import SuperintendentAppointments
+    from "./pages/superintendent/SuperintendentAppointments";
+
+import SuperintendentDepartments
+    from "./pages/superintendent/SuperintendentDepartments";
+
+import SuperintendentReports
+    from "./pages/superintendent/SuperintendentReports";
+
+import SuperintendentSettings
+    from "./pages/superintendent/SuperintendentSettings";
+
+
+/* =========================================================
+   AUTH PAGES
+========================================================= */
 
 import Login
-from "./pages/auth/Login";
+    from "./pages/auth/Login";
 
 import Register
-from "./pages/auth/Register";
+    from "./pages/auth/Register";
 
 import ForgotPassword
-from "./pages/auth/ForgotPassword";
+    from "./pages/auth/ForgotPassword";
 
 
-const App =
-() =>
-{
+/* =========================================================
+   APP
+========================================================= */
+
+const App = () => {
+
     return (
+
         <BrowserRouter>
 
             <AuthProvider>
 
                 <Routes>
+
+
+                    {/* =================================================
+                       PUBLIC ROUTES
+                    ================================================= */}
 
                     <Route
                         path="/"
@@ -171,6 +198,10 @@ const App =
                     />
 
 
+                    {/* =================================================
+                       ADMIN ROUTES
+                    ================================================= */}
+
                     <Route
                         element={
                             <ProtectedRoute
@@ -187,12 +218,18 @@ const App =
                             }
                         >
 
+
+                            {/* ADMIN DASHBOARD */}
+
                             <Route
                                 path="/admin"
                                 element={
                                     <AdminDashboard />
                                 }
                             />
+
+
+                            {/* DOCTORS */}
 
                             <Route
                                 path="/admin/doctors"
@@ -201,12 +238,14 @@ const App =
                                 }
                             />
 
+
                             <Route
                                 path="/admin/doctors/add"
                                 element={
                                     <AdminDoctorForm />
                                 }
                             />
+
 
                             <Route
                                 path="/admin/doctors/:id"
@@ -215,12 +254,16 @@ const App =
                                 }
                             />
 
+
                             <Route
                                 path="/admin/doctors/:id/edit"
                                 element={
                                     <AdminDoctorEdit />
                                 }
                             />
+
+
+                            {/* PATIENTS */}
 
                             <Route
                                 path="/admin/patients"
@@ -229,12 +272,16 @@ const App =
                                 }
                             />
 
+
+                            {/* APPOINTMENTS */}
+
                             <Route
                                 path="/admin/appointments"
                                 element={
                                     <AdminAppointments />
                                 }
                             />
+
 
                             <Route
                                 path="/admin/appointments/:id"
@@ -243,12 +290,18 @@ const App =
                                 }
                             />
 
+
+                            {/* DEPARTMENTS */}
+
                             <Route
                                 path="/admin/departments"
                                 element={
                                     <AdminDepartments />
                                 }
                             />
+
+
+                            {/* REPORTS */}
 
                             <Route
                                 path="/admin/reports"
@@ -257,12 +310,18 @@ const App =
                                 }
                             />
 
+
+                            {/* SETTINGS */}
+
                             <Route
                                 path="/admin/settings"
                                 element={
                                     <AdminSettings />
                                 }
                             />
+
+
+                            {/* SUPERINTENDENTS */}
 
                             <Route
                                 path="/admin/superintendents"
@@ -271,10 +330,15 @@ const App =
                                 }
                             />
 
+
                         </Route>
 
                     </Route>
 
+
+                    {/* =================================================
+                       PATIENT ROUTES
+                    ================================================= */}
 
                     <Route
                         element={
@@ -286,12 +350,18 @@ const App =
                         }
                     >
 
+
+                        {/* PATIENT DASHBOARD */}
+
                         <Route
                             path="/patient"
                             element={
                                 <PatientDashboard />
                             }
                         />
+
+
+                        {/* DOCTORS */}
 
                         <Route
                             path="/patient/doctors"
@@ -300,12 +370,16 @@ const App =
                             }
                         />
 
+
                         <Route
                             path="/patient/doctors/:id"
                             element={
                                 <PatientDoctorDetails />
                             }
                         />
+
+
+                        {/* BOOK APPOINTMENT */}
 
                         <Route
                             path="/patient/doctors/:id/book"
@@ -314,12 +388,18 @@ const App =
                             }
                         />
 
+
+                        {/* PATIENT APPOINTMENTS */}
+
                         <Route
                             path="/patient/appointments"
                             element={
                                 <PatientAppointments />
                             }
                         />
+
+
+                        {/* PROFILE */}
 
                         <Route
                             path="/patient/profile"
@@ -328,8 +408,13 @@ const App =
                             }
                         />
 
+
                     </Route>
 
+
+                    {/* =================================================
+                       DOCTOR ROUTES
+                    ================================================= */}
 
                     <Route
                         element={
@@ -341,12 +426,18 @@ const App =
                         }
                     >
 
+
+                        {/* DOCTOR DASHBOARD */}
+
                         <Route
                             path="/doctor"
                             element={
                                 <DoctorDashboard />
                             }
                         />
+
+
+                        {/* DOCTOR APPOINTMENTS */}
 
                         <Route
                             path="/doctor/appointments"
@@ -355,6 +446,9 @@ const App =
                             }
                         />
 
+
+                        {/* DOCTOR SCHEDULE */}
+
                         <Route
                             path="/doctor/schedule"
                             element={
@@ -362,8 +456,13 @@ const App =
                             }
                         />
 
+
                     </Route>
 
+
+                    {/* =================================================
+                       SUPERINTENDENT ROUTES
+                    ================================================= */}
 
                     <Route
                         element={
@@ -381,12 +480,18 @@ const App =
                             }
                         >
 
+
+                            {/* DASHBOARD */}
+
                             <Route
                                 path="/superintendent"
                                 element={
                                     <SuperintendentDashboard />
                                 }
                             />
+
+
+                            {/* DOCTORS */}
 
                             <Route
                                 path="/superintendent/doctors"
@@ -395,12 +500,18 @@ const App =
                                 }
                             />
 
+
+                            {/* PATIENTS */}
+
                             <Route
                                 path="/superintendent/patients"
                                 element={
                                     <SuperintendentPatients />
                                 }
                             />
+
+
+                            {/* APPOINTMENTS */}
 
                             <Route
                                 path="/superintendent/appointments"
@@ -409,12 +520,18 @@ const App =
                                 }
                             />
 
+
+                            {/* DEPARTMENTS */}
+
                             <Route
                                 path="/superintendent/departments"
                                 element={
                                     <SuperintendentDepartments />
                                 }
                             />
+
+
+                            {/* REPORTS */}
 
                             <Route
                                 path="/superintendent/reports"
@@ -423,6 +540,9 @@ const App =
                                 }
                             />
 
+
+                            {/* SETTINGS */}
+
                             <Route
                                 path="/superintendent/settings"
                                 element={
@@ -430,10 +550,15 @@ const App =
                                 }
                             />
 
+
                         </Route>
 
                     </Route>
 
+
+                    {/* =================================================
+                       FALLBACK ROUTE
+                    ================================================= */}
 
                     <Route
                         path="*"
@@ -445,12 +570,15 @@ const App =
                         }
                     />
 
+
                 </Routes>
 
             </AuthProvider>
 
         </BrowserRouter>
+
     );
+
 };
 
 

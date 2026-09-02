@@ -223,7 +223,7 @@ app.use(
 ========================================= */
 
 app.use(
-    "/api/doctor",
+    "/api/doctors",
     doctorRoutes
 );
 

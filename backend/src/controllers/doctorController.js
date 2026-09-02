@@ -16,6 +16,12 @@ const Schedule =
 const generateId =
     require("../utils/generateId");
 
+const Appointment =
+    require("../models/Appointment");
+
+const ExcelJS =
+    require("exceljs");
+
 const getDoctorFromUser = async (userId) =>
 {
     return await Doctor.findOne(

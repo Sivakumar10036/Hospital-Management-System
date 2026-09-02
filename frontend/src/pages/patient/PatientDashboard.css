@@ -771,3 +771,195 @@
         padding: 20px;
     }
 }
+.patient-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.patient-logout-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 11px 18px;
+    border: 1px solid #fecaca;
+    border-radius: 9px;
+    background: #fff5f5;
+    color: #dc2626;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.patient-logout-button:hover {
+    background: #fee2e2;
+    border-color: #fca5a5;
+    transform: translateY(-1px);
+    box-shadow:
+        0 5px 15px rgba(220, 38, 38, 0.12);
+}
+
+.patient-logout-button:active {
+    transform: translateY(0);
+}
+
+@media (max-width: 650px) {
+    .patient-header-actions {
+        width: 100%;
+    }
+
+    .patient-header-actions button {
+        flex: 1;
+    }
+}
+.patient-dashboard-page {
+    width: 100%;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.patient-dashboard-container {
+    width: 100%;
+    max-width: 1500px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.patient-dashboard-header {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.patient-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.patient-refresh-button,
+.patient-logout-button {
+    white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+
+    .patient-dashboard-container {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .patient-dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 18px;
+    }
+
+    .patient-header-actions {
+        width: 100%;
+    }
+
+    .patient-header-actions button {
+        flex: 1;
+    }
+
+    .patient-stat-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .patient-action-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .patient-dashboard-container {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .patient-dashboard-header h1 {
+        font-size: 26px;
+    }
+
+    .patient-dashboard-header p {
+        font-size: 14px;
+    }
+
+    .patient-header-actions {
+        display: flex;
+        width: 100%;
+        gap: 8px;
+    }
+
+    .patient-refresh-button,
+    .patient-logout-button {
+        min-width: 0;
+        padding: 10px 12px;
+        font-size: 13px;
+    }
+
+    .patient-stat-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .patient-appointment-item {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .patient-status {
+        margin-left: auto;
+    }
+}
+
+@media (max-width: 350px) {
+
+    .patient-dashboard-container {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .patient-header-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .patient-header-actions button {
+        width: 100%;
+        flex: none;
+    }
+
+    .patient-dashboard-header h1 {
+        font-size: 22px;
+    }
+
+    .patient-dashboard-header p {
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    .patient-stat-card {
+        min-width: 0;
+    }
+
+    .patient-action-card {
+        min-width: 0;
+    }
+
+    .patient-appointment-info {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .patient-status {
+        margin-left: 0;
+    }
+}
