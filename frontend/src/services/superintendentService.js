@@ -1,12 +1,7 @@
 import api from "../api/axios";
 
-
-// ============================================================
-// SUPERINTENDENT DASHBOARD
-// ============================================================
-
 export const getSuperintendentDashboard =
-async () =>
+    async () =>
 {
     const response =
         await api.get(
@@ -16,13 +11,8 @@ async () =>
     return response.data;
 };
 
-
-// ============================================================
-// SUPERINTENDENT DOCTORS
-// ============================================================
-
 export const getSuperintendentDoctors =
-async () =>
+    async () =>
 {
     const response =
         await api.get(
@@ -32,13 +22,8 @@ async () =>
     return response.data;
 };
 
-
-// ============================================================
-// SUPERINTENDENT PATIENTS
-// ============================================================
-
 export const getSuperintendentPatients =
-async () =>
+    async () =>
 {
     const response =
         await api.get(
@@ -48,13 +33,8 @@ async () =>
     return response.data;
 };
 
-
-// ============================================================
-// SUPERINTENDENT APPOINTMENTS
-// ============================================================
-
 export const getSuperintendentAppointments =
-async () =>
+    async () =>
 {
     const response =
         await api.get(
@@ -64,13 +44,8 @@ async () =>
     return response.data;
 };
 
-
-// ============================================================
-// DEPARTMENT STATISTICS
-// ============================================================
-
 export const getDepartmentStatistics =
-async () =>
+    async () =>
 {
     const response =
         await api.get(
@@ -80,34 +55,25 @@ async () =>
     return response.data;
 };
 
-
-// ============================================================
-// EXPORT HOSPITAL APPOINTMENTS
-// ============================================================
-
 export const exportHospitalAppointments =
-async () =>
+    async () =>
 {
     const response =
         await api.get(
             "/superintendents/appointments/export",
             {
-                responseType: "blob"
+                responseType:
+                    "blob"
             }
         );
 
     return response;
 };
 
-
-// ============================================================
-// ADMIN - CREATE SUPERINTENDENT
-// ============================================================
-
 export const createSuperintendent =
-async (
-    superintendentData
-) =>
+    async (
+        superintendentData
+    ) =>
 {
     const response =
         await api.post(
@@ -118,13 +84,8 @@ async (
     return response.data;
 };
 
-
-// ============================================================
-// ADMIN - GET ALL SUPERINTENDENTS
-// ============================================================
-
 export const getAllSuperintendents =
-async () =>
+    async () =>
 {
     const response =
         await api.get(
@@ -134,15 +95,10 @@ async () =>
     return response.data;
 };
 
-
-// ============================================================
-// ADMIN - GET SUPERINTENDENT BY ID
-// ============================================================
-
 export const getSuperintendentById =
-async (
-    id
-) =>
+    async (
+        id
+    ) =>
 {
     const response =
         await api.get(
@@ -152,16 +108,11 @@ async (
     return response.data;
 };
 
-
-// ============================================================
-// ADMIN - UPDATE SUPERINTENDENT
-// ============================================================
-
 export const updateSuperintendent =
-async (
-    id,
-    superintendentData
-) =>
+    async (
+        id,
+        superintendentData
+    ) =>
 {
     const response =
         await api.put(
@@ -172,16 +123,11 @@ async (
     return response.data;
 };
 
-
-// ============================================================
-// ADMIN - UPDATE SUPERINTENDENT STATUS
-// ============================================================
-
 export const updateSuperintendentStatus =
-async (
-    id,
-    statusData
-) =>
+    async (
+        id,
+        statusData
+    ) =>
 {
     const response =
         await api.patch(
@@ -192,18 +138,13 @@ async (
     return response.data;
 };
 
-
-// ============================================================
-// SUPERINTENDENT - CHANGE OWN PASSWORD
-// ============================================================
-
 export const changeSuperintendentPassword =
-async (
-    passwordData
-) =>
+    async (
+        passwordData
+    ) =>
 {
     const response =
-        await api.put(
+        await api.patch(
             "/superintendents/change-password",
             passwordData
         );

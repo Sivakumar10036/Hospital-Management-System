@@ -21,91 +21,108 @@ import {
     updateSuperintendentStatus
 } from "../../services/superintendentService";
 
+import {
+    getDepartments
+} from "../../services/adminService";
+
 import "../../styles/AdminSuperintendents.css";
 
-
-const AdminSuperintendents = () =>
+const AdminSuperintendents =
+    () =>
 {
     const [
         superintendents,
         setSuperintendents
-    ] = useState([]);
+    ] =
+        useState([]);
 
+    const [
+        departments,
+        setDepartments
+    ] =
+        useState([]);
 
     const [
         loading,
         setLoading
-    ] = useState(true);
-
+    ] =
+        useState(true);
 
     const [
         refreshing,
         setRefreshing
-    ] = useState(false);
-
+    ] =
+        useState(false);
 
     const [
         creating,
         setCreating
-    ] = useState(false);
-
+    ] =
+        useState(false);
 
     const [
         searchTerm,
         setSearchTerm
-    ] = useState("");
-
+    ] =
+        useState("");
 
     const [
         showForm,
         setShowForm
-    ] = useState(false);
-
+    ] =
+        useState(false);
 
     const [
         error,
         setError
-    ] = useState("");
-
+    ] =
+        useState("");
 
     const [
         success,
         setSuccess
-    ] = useState("");
-
+    ] =
+        useState("");
 
     const [
         formData,
         setFormData
-    ] = useState(
+    ] =
+        useState(
         {
-            name: "",
-            email: "",
-            phone: "",
-            employeeId: "",
-            password: ""
+            name:
+                "",
+
+            email:
+                "",
+
+            phone:
+                "",
+
+            employeeId:
+                "",
+
+            password:
+                "",
+
+            department:
+                ""
         }
-    );
-
-
-    /*
-    ============================================================
-    EXTRACT SUPERINTENDENTS
-    ============================================================
-    */
+        );
 
     const extractSuperintendents =
-    (
-        response
-    ) =>
+        (
+            response
+        ) =>
     {
         if (
-            Array.isArray(response)
+            Array.isArray(
+                response
+            )
         )
         {
             return response;
         }
-
 
         if (
             Array.isArray(
@@ -116,7 +133,6 @@ const AdminSuperintendents = () =>
             return response.superintendents;
         }
 
-
         if (
             Array.isArray(
                 response?.data
@@ -125,7 +141,6 @@ const AdminSuperintendents = () =>
         {
             return response.data;
         }
-
 
         if (
             Array.isArray(
@@ -136,7 +151,6 @@ const AdminSuperintendents = () =>
             return response.data.superintendents;
         }
 
-
         if (
             Array.isArray(
                 response?.data?.data
@@ -145,7 +159,6 @@ const AdminSuperintendents = () =>
         {
             return response.data.data;
         }
-
 
         if (
             Array.isArray(
@@ -156,7 +169,6 @@ const AdminSuperintendents = () =>
             return response.results;
         }
 
-
         if (
             Array.isArray(
                 response?.data?.results
@@ -166,21 +178,62 @@ const AdminSuperintendents = () =>
             return response.data.results;
         }
 
-
         return [];
     };
 
+    const loadDepartments =
+        async () =>
+    {
+        try
+        {
+            const response =
+                await getDepartments();
 
-    /*
-    ============================================================
-    LOAD SUPERINTENDENTS
-    ============================================================
-    */
+            const departmentList =
+                response?.departments ||
+                response?.data?.departments ||
+                response?.data ||
+                [];
+
+            const activeDepartments =
+                Array.isArray(
+                    departmentList
+                )
+                    ?
+                    departmentList.filter(
+                        department =>
+                            department.isActive !== false
+                    )
+                    :
+                    [];
+
+            setDepartments(
+                activeDepartments
+            );
+        }
+        catch (
+            requestError
+        )
+        {
+            console.error(
+                "DEPARTMENT LOAD ERROR:",
+                requestError
+            );
+
+            setDepartments([]);
+
+            setError(
+                requestError.response?.data?.message ||
+                requestError.message ||
+                "Unable to load departments."
+            );
+        }
+    };
 
     const loadSuperintendents =
-    async (
-        refresh = false
-    ) =>
+        async (
+            refresh = false
+        ) =>
     {
         try
         {
@@ -188,36 +241,29 @@ const AdminSuperintendents = () =>
                 refresh
             )
             {
-                setRefreshing(true);
+                setRefreshing(
+                    true
+                );
             }
             else
             {
-                setLoading(true);
+                setLoading(
+                    true
+                );
             }
 
-
             setError("");
-            setSuccess("");
-
 
             const response =
                 await getAllSuperintendents();
 
-
-            console.log(
-                "SUPERINTENDENTS API RESPONSE:",
-                response
-            );
-
-
-            const superintendentList =
+            const list =
                 extractSuperintendents(
                     response
                 );
 
-
             setSuperintendents(
-                superintendentList
+                list
             );
         }
         catch (
@@ -229,11 +275,9 @@ const AdminSuperintendents = () =>
                 requestError
             );
 
-
             setSuperintendents(
                 []
             );
-
 
             setError(
                 requestError.response?.data?.message ||
@@ -243,92 +287,83 @@ const AdminSuperintendents = () =>
         }
         finally
         {
-            setLoading(false);
-            setRefreshing(false);
+            setLoading(
+                false
+            );
+
+            setRefreshing(
+                false
+            );
         }
     };
-
-
-    /*
-    ============================================================
-    INITIAL LOAD
-    ============================================================
-    */
 
     useEffect(
         () =>
         {
             loadSuperintendents();
+
+            loadDepartments();
         },
         []
     );
 
-
-    /*
-    ============================================================
-    HANDLE INPUT
-    ============================================================
-    */
-
     const handleChange =
-    (
-        event
-    ) =>
+        (
+            event
+        ) =>
     {
         const {
             name,
             value
-        } = event.target;
-
+        } =
+            event.target;
 
         setFormData(
             previous =>
             ({
                 ...previous,
-                [name]: value
+                [name]:
+                    value
             })
         );
     };
 
-
-    /*
-    ============================================================
-    RESET FORM
-    ============================================================
-    */
-
     const resetForm =
-    () =>
+        () =>
     {
         setFormData(
-            {
-                name: "",
-                email: "",
-                phone: "",
-                employeeId: "",
-                password: ""
-            }
+        {
+            name:
+                "",
+
+            email:
+                "",
+
+            phone:
+                "",
+
+            employeeId:
+                "",
+
+            password:
+                "",
+
+            department:
+                ""
+        }
         );
     };
 
-
-    /*
-    ============================================================
-    CREATE SUPERINTENDENT
-    ============================================================
-    */
-
     const handleCreate =
-    async (
-        event
-    ) =>
+        async (
+            event
+        ) =>
     {
         event.preventDefault();
 
-
         setError("");
-        setSuccess("");
 
+        setSuccess("");
 
         const name =
             formData.name.trim();
@@ -345,26 +380,24 @@ const AdminSuperintendents = () =>
         const password =
             formData.password.trim();
 
-
-        /*
-        FRONTEND VALIDATION
-        */
+        const department =
+            formData.department;
 
         if (
             !name ||
             !email ||
             !phone ||
             !employeeId ||
-            !password
+            !password ||
+            !department
         )
         {
             setError(
-                "Name, email, password, phone and employee ID are required."
+                "Name, email, phone, employee ID, password and department are required."
             );
 
             return;
         }
-
 
         if (
             password.length < 6
@@ -377,7 +410,6 @@ const AdminSuperintendents = () =>
             return;
         }
 
-
         if (
             phone.length < 10
         )
@@ -389,11 +421,11 @@ const AdminSuperintendents = () =>
             return;
         }
 
-
         try
         {
-            setCreating(true);
-
+            setCreating(
+                true
+            );
 
             const payload =
             {
@@ -401,27 +433,24 @@ const AdminSuperintendents = () =>
                 email,
                 phone,
                 employeeId,
-                password
+                password,
+                department
             };
-
 
             console.log(
                 "CREATE SUPERINTENDENT PAYLOAD:",
                 payload
             );
 
-
             const response =
                 await createSuperintendent(
                     payload
                 );
 
-
             console.log(
                 "CREATE SUPERINTENDENT RESPONSE:",
                 response
             );
-
 
             if (
                 response?.success === false
@@ -435,17 +464,15 @@ const AdminSuperintendents = () =>
                 return;
             }
 
-
             setSuccess(
                 "Superintendent created successfully."
             );
 
-
             resetForm();
 
-
-            setShowForm(false);
-
+            setShowForm(
+                false
+            );
 
             await loadSuperintendents(
                 true
@@ -460,7 +487,6 @@ const AdminSuperintendents = () =>
                 requestError
             );
 
-
             setError(
                 requestError.response?.data?.message ||
                 requestError.message ||
@@ -469,34 +495,128 @@ const AdminSuperintendents = () =>
         }
         finally
         {
-            setCreating(false);
+            setCreating(
+                false
+            );
         }
     };
 
+    const getSuperintendentName =
+        (
+            superintendent
+        ) =>
+    {
+        return (
+            superintendent?.name ||
+            superintendent?.fullName ||
+            superintendent?.user?.name ||
+            superintendent?.user?.fullName ||
+            "Unknown"
+        );
+    };
 
-    /*
-    ============================================================
-    UPDATE STATUS
-    ============================================================
-    */
+    const getSuperintendentEmail =
+        (
+            superintendent
+        ) =>
+    {
+        return (
+            superintendent?.email ||
+            superintendent?.user?.email ||
+            "No email"
+        );
+    };
+
+    const getSuperintendentPhone =
+        (
+            superintendent
+        ) =>
+    {
+        return (
+            superintendent?.phone ||
+            superintendent?.user?.phone ||
+            "No phone"
+        );
+    };
+
+    const getSuperintendentEmployeeId =
+        (
+            superintendent
+        ) =>
+    {
+        return (
+            superintendent?.employeeId ||
+            "N/A"
+        );
+    };
+
+    const getSuperintendentId =
+        (
+            superintendent
+        ) =>
+    {
+        return (
+            superintendent?._id ||
+            superintendent?.id ||
+            ""
+        );
+    };
+
+    const getSuperintendentStatus =
+        (
+            superintendent
+        ) =>
+    {
+        if (
+            typeof superintendent?.isActive ===
+            "boolean"
+        )
+        {
+            return superintendent.isActive;
+        }
+
+        if (
+            typeof superintendent?.active ===
+            "boolean"
+        )
+        {
+            return superintendent.active;
+        }
+
+        if (
+            typeof superintendent?.user?.isActive ===
+            "boolean"
+        )
+        {
+            return superintendent.user.isActive;
+        }
+
+        if (
+            typeof superintendent?.user?.active ===
+            "boolean"
+        )
+        {
+            return superintendent.user.active;
+        }
+
+        return true;
+    };
 
     const handleStatus =
-    async (
-        superintendent
-    ) =>
+        async (
+            superintendent
+        ) =>
     {
         try
         {
             setError("");
+
             setSuccess("");
 
-
             const id =
-                superintendent._id ||
-                superintendent.id ||
-                superintendent.user?._id ||
-                superintendent.user?.id;
-
+                getSuperintendentId(
+                    superintendent
+                );
 
             if (
                 !id
@@ -509,14 +629,10 @@ const AdminSuperintendents = () =>
                 return;
             }
 
-
             const currentStatus =
-                superintendent.isActive ??
-                superintendent.active ??
-                superintendent.user?.isActive ??
-                superintendent.user?.active ??
-                true;
-
+                getSuperintendentStatus(
+                    superintendent
+                );
 
             const response =
                 await updateSuperintendentStatus(
@@ -526,13 +642,6 @@ const AdminSuperintendents = () =>
                             !currentStatus
                     }
                 );
-
-
-            console.log(
-                "STATUS UPDATE RESPONSE:",
-                response
-            );
-
 
             if (
                 response?.success === false
@@ -546,7 +655,6 @@ const AdminSuperintendents = () =>
                 return;
             }
 
-
             setSuccess(
                 currentStatus
                     ?
@@ -554,7 +662,6 @@ const AdminSuperintendents = () =>
                     :
                     "Superintendent activated successfully."
             );
-
 
             await loadSuperintendents(
                 true
@@ -569,7 +676,6 @@ const AdminSuperintendents = () =>
                 requestError
             );
 
-
             setError(
                 requestError.response?.data?.message ||
                 requestError.message ||
@@ -577,141 +683,6 @@ const AdminSuperintendents = () =>
             );
         }
     };
-
-
-    /*
-    ============================================================
-    GET NAME
-    ============================================================
-    */
-
-    const getSuperintendentName =
-    (
-        superintendent
-    ) =>
-    {
-        return (
-            superintendent.name ||
-            superintendent.fullName ||
-            superintendent.user?.name ||
-            superintendent.user?.fullName ||
-            superintendent.profile?.name ||
-            "Hospital Superintendent"
-        );
-    };
-
-
-    /*
-    ============================================================
-    GET EMAIL
-    ============================================================
-    */
-
-    const getSuperintendentEmail =
-    (
-        superintendent
-    ) =>
-    {
-        return (
-            superintendent.email ||
-            superintendent.user?.email ||
-            superintendent.profile?.email ||
-            "Not provided"
-        );
-    };
-
-
-    /*
-    ============================================================
-    GET PHONE
-    ============================================================
-    */
-
-    const getSuperintendentPhone =
-    (
-        superintendent
-    ) =>
-    {
-        return (
-            superintendent.phone ||
-            superintendent.mobile ||
-            superintendent.user?.phone ||
-            superintendent.user?.mobile ||
-            superintendent.profile?.phone ||
-            "Not provided"
-        );
-    };
-
-
-    /*
-    ============================================================
-    GET EMPLOYEE ID
-    ============================================================
-    */
-
-    const getSuperintendentEmployeeId =
-    (
-        superintendent
-    ) =>
-    {
-        return (
-            superintendent.employeeId ||
-            superintendent.employeeID ||
-            superintendent.employee_id ||
-            superintendent.user?.employeeId ||
-            superintendent.user?.employeeID ||
-            superintendent.profile?.employeeId ||
-            "Not provided"
-        );
-    };
-
-
-    /*
-    ============================================================
-    GET ID
-    ============================================================
-    */
-
-    const getSuperintendentId =
-    (
-        superintendent
-    ) =>
-    {
-        return (
-            superintendent._id ||
-            superintendent.id ||
-            superintendent.user?._id ||
-            superintendent.user?.id
-        );
-    };
-
-
-    /*
-    ============================================================
-    GET STATUS
-    ============================================================
-    */
-
-    const getSuperintendentStatus =
-    (
-        superintendent
-    ) =>
-    {
-        return (
-            superintendent.isActive ??
-            superintendent.active ??
-            superintendent.user?.isActive ??
-            superintendent.user?.active ??
-            true
-        );
-    };
-
-
-    /*
-    ============================================================
-    SEARCH
-    ============================================================
-    */
 
     const filteredSuperintendents =
         superintendents.filter(
@@ -737,82 +708,64 @@ const AdminSuperintendents = () =>
                         superintendent
                     );
 
+                const department =
+                    superintendent?.department?.name ||
+                    "";
 
                 const search =
                     searchTerm
                         .toLowerCase()
                         .trim();
 
-
                 return (
                     name
                         .toLowerCase()
-                        .includes(search)
-                    ||
+                        .includes(search) ||
                     email
                         .toLowerCase()
-                        .includes(search)
-                    ||
+                        .includes(search) ||
                     phone
                         .toLowerCase()
-                        .includes(search)
-                    ||
+                        .includes(search) ||
                     employeeId
+                        .toLowerCase()
+                        .includes(search) ||
+                    department
                         .toLowerCase()
                         .includes(search)
                 );
             }
         );
 
-
-    /*
-    ============================================================
-    JSX
-    ============================================================
-    */
-
     return (
         <div
             className="admin-superintendents-page"
         >
-
             <div
                 className="admin-superintendents-container"
             >
-
-                {/* HEADER */}
-
                 <div
                     className="admin-superintendents-header"
                 >
-
                     <div>
-
                         <span
                             className="admin-superintendents-eyebrow"
                         >
                             HOSPITAL ADMINISTRATION
                         </span>
 
-
                         <h1>
                             Superintendents
                         </h1>
 
-
                         <p>
-                            Create and manage
-                            hospital superintendent
-                            accounts.
+                            Create and manage hospital superintendent accounts.
                         </p>
-
                     </div>
-
 
                     <div
                         className="admin-superintendents-actions"
                     >
-
                         <button
                             type="button"
                             className="admin-superintendents-refresh"
@@ -825,7 +778,6 @@ const AdminSuperintendents = () =>
                                 refreshing
                             }
                         >
-
                             <RefreshCw
                                 size={17}
                                 className={
@@ -837,74 +789,54 @@ const AdminSuperintendents = () =>
                                 }
                             />
 
-                            {
-                                refreshing
-                                    ?
-                                    "Refreshing..."
-                                    :
-                                    "Refresh"
-                            }
-
+                            Refresh
                         </button>
-
 
                         <button
                             type="button"
                             className="admin-superintendents-add"
                             onClick={() =>
                             {
+                                setError("");
+
+                                setSuccess("");
+
                                 setShowForm(
                                     previous =>
                                         !previous
                                 );
-
-                                setError("");
-                                setSuccess("");
                             }}
                         >
-
                             <Plus
                                 size={18}
                             />
 
                             Add Superintendent
-
                         </button>
-
                     </div>
-
                 </div>
-
-
-                {/* ERROR */}
 
                 {
                     error &&
                     (
                         <div
-                            className="admin-superintendents-message error"
+                            className="admin-superintendent-alert error"
                         >
                             {error}
                         </div>
                     )
                 }
 
-
-                {/* SUCCESS */}
-
                 {
                     success &&
                     (
                         <div
-                            className="admin-superintendents-message success"
+                            className="admin-superintendent-alert success"
                         >
                             {success}
                         </div>
                     )
                 }
-
-
-                {/* CREATE FORM */}
 
                 {
                     showForm &&
@@ -912,39 +844,31 @@ const AdminSuperintendents = () =>
                         <div
                             className="admin-superintendent-form-card"
                         >
-
                             <div
-                                className="admin-superintendent-form-title"
+                                className="admin-superintendent-form-header"
                             >
+                                <div>
+                                    <h2>
+                                        Create Superintendent
+                                    </h2>
 
-                                <h2>
-                                    Create Superintendent
-                                </h2>
-
-                                <p>
-                                    Create a new hospital
-                                    superintendent account.
-                                </p>
-
+                                    <p>
+                                        Assign the Superintendent to a department.
+                                    </p>
+                                </div>
                             </div>
-
 
                             <form
                                 onSubmit={
                                     handleCreate
                                 }
                             >
-
                                 <div
                                     className="admin-superintendent-form-grid"
                                 >
-
-                                    {/* NAME */}
-
                                     <div
                                         className="admin-superintendent-field"
                                     >
-
                                         <label>
                                             Full Name
                                         </label>
@@ -961,16 +885,11 @@ const AdminSuperintendents = () =>
                                             placeholder="Enter full name"
                                             required
                                         />
-
                                     </div>
-
-
-                                    {/* EMAIL */}
 
                                     <div
                                         className="admin-superintendent-field"
                                     >
-
                                         <label>
                                             Email
                                         </label>
@@ -984,19 +903,14 @@ const AdminSuperintendents = () =>
                                             onChange={
                                                 handleChange
                                             }
-                                            placeholder="Enter email"
+                                            placeholder="Enter email address"
                                             required
                                         />
-
                                     </div>
-
-
-                                    {/* PHONE */}
 
                                     <div
                                         className="admin-superintendent-field"
                                     >
-
                                         <label>
                                             Phone
                                         </label>
@@ -1013,16 +927,11 @@ const AdminSuperintendents = () =>
                                             placeholder="Enter phone number"
                                             required
                                         />
-
                                     </div>
-
-
-                                    {/* EMPLOYEE ID */}
 
                                     <div
                                         className="admin-superintendent-field"
                                     >
-
                                         <label>
                                             Employee ID
                                         </label>
@@ -1039,16 +948,11 @@ const AdminSuperintendents = () =>
                                             placeholder="Enter employee ID"
                                             required
                                         />
-
                                     </div>
-
-
-                                    {/* PASSWORD */}
 
                                     <div
                                         className="admin-superintendent-field"
                                     >
-
                                         <label>
                                             Password
                                         </label>
@@ -1066,30 +970,68 @@ const AdminSuperintendents = () =>
                                             minLength={6}
                                             required
                                         />
-
-                                        <small>
-                                            Password must contain
-                                            at least 6 characters.
-                                        </small>
-
                                     </div>
 
+                                    <div
+                                        className="admin-superintendent-field"
+                                    >
+                                        <label>
+                                            Department
+                                        </label>
+
+                                        <select
+                                            name="department"
+                                            value={
+                                                formData.department
+                                            }
+                                            onChange={
+                                                handleChange
+                                            }
+                                            required
+                                        >
+                                            <option
+                                                value=""
+                                            >
+                                                Select Department
+                                            </option>
+
+                                            {
+                                                departments.map(
+                                                    department =>
+                                                    (
+                                                        <option
+                                                            key={
+                                                                department._id
+                                                            }
+                                                            value={
+                                                                department._id
+                                                            }
+                                                        >
+                                                            {
+                                                                department.name
+                                                            }
+                                                        </option>
+                                                    )
+                                                )
+                                            }
+                                        </select>
+                                    </div>
                                 </div>
-
-
-                                {/* FORM ACTIONS */}
 
                                 <div
                                     className="admin-superintendent-form-actions"
                                 >
-
                                     <button
                                         type="button"
                                         className="admin-superintendent-cancel"
                                         onClick={() =>
                                         {
                                             resetForm();
-                                            setShowForm(false);
+
+                                            setShowForm(
+                                                false
+                                            );
+
                                             setError("");
                                         }}
                                         disabled={
@@ -1099,7 +1041,6 @@ const AdminSuperintendents = () =>
                                         Cancel
                                     </button>
 
-
                                     <button
                                         type="submit"
                                         className="admin-superintendent-submit"
@@ -1107,7 +1048,6 @@ const AdminSuperintendents = () =>
                                             creating
                                         }
                                     >
-
                                         {
                                             creating
                                                 ?
@@ -1128,35 +1068,26 @@ const AdminSuperintendents = () =>
                                                     Create Superintendent
                                                 </>
                                         }
-
                                     </button>
-
                                 </div>
-
                             </form>
-
                         </div>
                     )
                 }
 
-
-                {/* SEARCH */}
-
                 <div
                     className="admin-superintendents-toolbar"
                 >
-
                     <div
                         className="admin-superintendents-search"
                     >
-
                         <Search
                             size={18}
                         />
 
                         <input
                             type="text"
-                            placeholder="Search by name, email, phone or employee ID..."
+                            placeholder="Search by name, email, phone, employee ID or department..."
                             value={
                                 searchTerm
                             }
@@ -1167,45 +1098,35 @@ const AdminSuperintendents = () =>
                                     )
                             }
                         />
-
                     </div>
-
 
                     <div
                         className="admin-superintendents-count"
                     >
-
                         <UserRound
                             size={18}
                         />
 
                         <span>
-
                             {
                                 filteredSuperintendents.length
                             }
 
                             {
-                                filteredSuperintendents.length === 1
+                                filteredSuperintendents.length ===
+                                1
                                     ?
                                     " Superintendent"
                                     :
                                     " Superintendents"
                             }
-
                         </span>
-
                     </div>
-
                 </div>
-
-
-                {/* TABLE */}
 
                 <div
                     className="admin-superintendents-card"
                 >
-
                     {
                         loading
                             ?
@@ -1213,7 +1134,6 @@ const AdminSuperintendents = () =>
                                 <div
                                     className="admin-superintendents-loading"
                                 >
-
                                     <RefreshCw
                                         size={30}
                                         className="admin-superintendents-spin"
@@ -1222,17 +1142,16 @@ const AdminSuperintendents = () =>
                                     <p>
                                         Loading superintendents...
                                     </p>
-
                                 </div>
                             )
                             :
-                            filteredSuperintendents.length === 0
+                            filteredSuperintendents.length ===
+                            0
                                 ?
                                 (
                                     <div
                                         className="admin-superintendents-empty"
                                     >
-
                                         <UserRound
                                             size={46}
                                         />
@@ -1242,8 +1161,7 @@ const AdminSuperintendents = () =>
                                         </h3>
 
                                         <p>
-                                            No superintendent
-                                            accounts were found.
+                                            No superintendent accounts were found.
                                         </p>
 
                                         <button
@@ -1255,15 +1173,12 @@ const AdminSuperintendents = () =>
                                                 )
                                             }
                                         >
-
                                             <RefreshCw
                                                 size={17}
                                             />
 
                                             Try Again
-
                                         </button>
-
                                     </div>
                                 )
                                 :
@@ -1271,15 +1186,11 @@ const AdminSuperintendents = () =>
                                     <div
                                         className="admin-superintendents-table-wrapper"
                                     >
-
                                         <table
                                             className="admin-superintendents-table"
                                         >
-
                                             <thead>
-
                                                 <tr>
-
                                                     <th>
                                                         SUPERINTENDENT
                                                     </th>
@@ -1297,6 +1208,10 @@ const AdminSuperintendents = () =>
                                                     </th>
 
                                                     <th>
+                                                        DEPARTMENT
+                                                    </th>
+
+                                                    <th>
                                                         ROLE
                                                     </th>
 
@@ -1307,14 +1222,10 @@ const AdminSuperintendents = () =>
                                                     <th>
                                                         ACTION
                                                     </th>
-
                                                 </tr>
-
                                             </thead>
 
-
                                             <tbody>
-
                                                 {
                                                     filteredSuperintendents.map(
                                                         superintendent =>
@@ -1324,36 +1235,34 @@ const AdminSuperintendents = () =>
                                                                     superintendent
                                                                 );
 
-
                                                             const email =
                                                                 getSuperintendentEmail(
                                                                     superintendent
                                                                 );
-
 
                                                             const phone =
                                                                 getSuperintendentPhone(
                                                                     superintendent
                                                                 );
 
-
                                                             const employeeId =
                                                                 getSuperintendentEmployeeId(
                                                                     superintendent
                                                                 );
-
 
                                                             const isActive =
                                                                 getSuperintendentStatus(
                                                                     superintendent
                                                                 );
 
-
                                                             const id =
                                                                 getSuperintendentId(
                                                                     superintendent
                                                                 );
 
+                                                            const departmentName =
+                                                                superintendent?.department?.name ||
+                                                                "Not assigned";
 
                                                             return (
                                                                 <tr
@@ -1362,28 +1271,19 @@ const AdminSuperintendents = () =>
                                                                         `${email}-${employeeId}`
                                                                     }
                                                                 >
-
-                                                                    {/* NAME */}
-
                                                                     <td>
-
                                                                         <div
                                                                             className="admin-superintendent-person"
                                                                         >
-
                                                                             <div
                                                                                 className="admin-superintendent-avatar"
                                                                             >
-
                                                                                 <UserRound
                                                                                     size={20}
                                                                                 />
-
                                                                             </div>
 
-
                                                                             <div>
-
                                                                                 <strong>
                                                                                     {
                                                                                         name
@@ -1393,22 +1293,14 @@ const AdminSuperintendents = () =>
                                                                                 <span>
                                                                                     Hospital Superintendent
                                                                                 </span>
-
                                                                             </div>
-
                                                                         </div>
-
                                                                     </td>
 
-
-                                                                    {/* EMPLOYEE ID */}
-
                                                                     <td>
-
                                                                         <div
                                                                             className="admin-superintendent-contact"
                                                                         >
-
                                                                             <Badge
                                                                                 size={15}
                                                                             />
@@ -1416,20 +1308,13 @@ const AdminSuperintendents = () =>
                                                                             {
                                                                                 employeeId
                                                                             }
-
                                                                         </div>
-
                                                                     </td>
 
-
-                                                                    {/* EMAIL */}
-
                                                                     <td>
-
                                                                         <div
                                                                             className="admin-superintendent-contact"
                                                                         >
-
                                                                             <Mail
                                                                                 size={15}
                                                                             />
@@ -1437,20 +1322,13 @@ const AdminSuperintendents = () =>
                                                                             {
                                                                                 email
                                                                             }
-
                                                                         </div>
-
                                                                     </td>
 
-
-                                                                    {/* PHONE */}
-
                                                                     <td>
-
                                                                         <div
                                                                             className="admin-superintendent-contact"
                                                                         >
-
                                                                             <Phone
                                                                                 size={15}
                                                                             />
@@ -1458,29 +1336,24 @@ const AdminSuperintendents = () =>
                                                                             {
                                                                                 phone
                                                                             }
-
                                                                         </div>
-
                                                                     </td>
 
-
-                                                                    {/* ROLE */}
+                                                                    <td>
+                                                                        {
+                                                                            departmentName
+                                                                        }
+                                                                    </td>
 
                                                                     <td>
-
                                                                         <span
                                                                             className="admin-superintendent-role"
                                                                         >
                                                                             SUPERINTENDENT
                                                                         </span>
-
                                                                     </td>
 
-
-                                                                    {/* STATUS */}
-
                                                                     <td>
-
                                                                         <span
                                                                             className={
                                                                                 isActive
@@ -1490,7 +1363,6 @@ const AdminSuperintendents = () =>
                                                                                     "admin-superintendent-status inactive"
                                                                             }
                                                                         >
-
                                                                             {
                                                                                 isActive
                                                                                     ?
@@ -1498,16 +1370,10 @@ const AdminSuperintendents = () =>
                                                                                     :
                                                                                     "Inactive"
                                                                             }
-
                                                                         </span>
-
                                                                     </td>
 
-
-                                                                    {/* ACTION */}
-
                                                                     <td>
-
                                                                         <button
                                                                             type="button"
                                                                             className={
@@ -1523,7 +1389,6 @@ const AdminSuperintendents = () =>
                                                                                 )
                                                                             }
                                                                         >
-
                                                                             {
                                                                                 isActive
                                                                                     ?
@@ -1536,7 +1401,6 @@ const AdminSuperintendents = () =>
                                                                                     />
                                                                             }
 
-
                                                                             {
                                                                                 isActive
                                                                                     ?
@@ -1544,32 +1408,22 @@ const AdminSuperintendents = () =>
                                                                                     :
                                                                                     "Activate"
                                                                             }
-
                                                                         </button>
-
                                                                     </td>
-
                                                                 </tr>
                                                             );
                                                         }
                                                     )
                                                 }
-
                                             </tbody>
-
                                         </table>
-
                                     </div>
                                 )
                     }
-
                 </div>
-
             </div>
-
         </div>
     );
 };
-
 
 export default AdminSuperintendents;
