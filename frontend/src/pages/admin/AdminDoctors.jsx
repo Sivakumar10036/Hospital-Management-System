@@ -1,11 +1,7 @@
-import React,
-{
-    useEffect,
-    useState
-}
-from "react";
+import React, { useEffect, useState } from "react";
 
-import {
+import
+{
     Search,
     Plus,
     Eye,
@@ -16,45 +12,35 @@ import {
 }
 from "lucide-react";
 
-import {
-    useNavigate
-}
-from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-import {
+import
+{
     getDoctors,
     updateDoctorStatus
 }
 from "../../services/adminService";
 
-const AdminDoctors =
-() =>
+
+const AdminDoctors = () =>
 {
     const navigate =
         useNavigate();
 
-    const [
-        doctors,
-        setDoctors
-    ] = useState([]);
+    const [doctors, setDoctors] =
+        useState([]);
 
-    const [
-        loading,
-        setLoading
-    ] = useState(true);
+    const [loading, setLoading] =
+        useState(true);
 
-    const [
-        search,
-        setSearch
-    ] = useState("");
+    const [search, setSearch] =
+        useState("");
 
-    const [
-        error,
-        setError
-    ] = useState("");
+    const [error, setError] =
+        useState("");
 
-    const loadDoctors =
-    async () =>
+
+    const loadDoctors = async () =>
     {
         try
         {
@@ -70,20 +56,20 @@ const AdminDoctors =
                 [];
 
             setDoctors(
-                Array.isArray(
-                    doctorList
-                )
+                Array.isArray(doctorList)
                     ? doctorList
                     : []
             );
         }
         catch (requestError)
         {
-            setError(
+            console.error(
+                "Load doctors error:",
                 requestError
-                    ?.response
-                    ?.data
-                    ?.message ||
+            );
+
+            setError(
+                requestError?.response?.data?.message ||
                 "Unable to load doctors."
             );
         }
@@ -93,70 +79,29 @@ const AdminDoctors =
         }
     };
 
-    useEffect(
-        () =>
-        {
-            loadDoctors();
-        },
-        []
-    );
 
-    const filteredDoctors =
-        doctors.filter(
-            (doctor) =>
-            {
-                const searchText =
-                    search.toLowerCase();
+    useEffect(() =>
+    {
+        loadDoctors();
+    }, []);
 
-                return (
-                    (
-                        doctor.name ||
-                        doctor.fullName ||
-                        ""
-                    )
-                        .toLowerCase()
-                        .includes(
-                            searchText
-                        ) ||
-                    (
-                        doctor.specialization ||
-                        ""
-                    )
-                        .toLowerCase()
-                        .includes(
-                            searchText
-                        ) ||
-                    (
-                        doctor.department?.name ||
-                        doctor.department ||
-                        ""
-                    )
-                        .toString()
-                        .toLowerCase()
-                        .includes(
-                            searchText
-                        )
-                );
-            }
-        );
 
-    const getDoctorName =
-    (doctor) =>
+    const getDoctorName = (doctor) =>
     {
         return (
             doctor.name ||
             doctor.fullName ||
+            doctor.user?.name ||
             "Doctor"
         );
     };
 
-    const getDepartment =
-    (doctor) =>
+
+    const getDepartment = (doctor) =>
     {
         if (
             doctor.department &&
-            typeof doctor.department ===
-                "object"
+            typeof doctor.department === "object"
         )
         {
             return (
@@ -171,40 +116,140 @@ const AdminDoctors =
         );
     };
 
-    const getPhoto =
-    (doctor) =>
+
+    const getSpecialization = (doctor) =>
     {
-        if (
-            !doctor.profilePhoto
-        )
+        return (
+            doctor.specialization ||
+            "General Physician"
+        );
+    };
+
+
+    const getDoctorEmail = (doctor) =>
+    {
+        return (
+            doctor.email ||
+            doctor.user?.email ||
+            "No email"
+        );
+    };
+
+
+    const getDoctorPhone = (doctor) =>
+    {
+        return (
+            doctor.phone ||
+            doctor.user?.phone ||
+            "No phone"
+        );
+    };
+
+
+    const getPhoto = (doctor) =>
+    {
+        const profilePhoto =
+            doctor.profilePhoto ||
+            doctor.user?.profilePhoto;
+
+        if (!profilePhoto)
         {
             return null;
         }
 
         if (
-            doctor.profilePhoto.startsWith(
-                "http"
-            )
+            profilePhoto.startsWith("http")
         )
         {
-            return doctor.profilePhoto;
+            return profilePhoto;
         }
 
-        return `http://localhost:5000${doctor.profilePhoto}`;
+        return `http://localhost:5000${profilePhoto}`;
     };
 
-    const isDoctorActive =
-    (doctor) =>
+
+    const isDoctorActive = (doctor) =>
     {
-        return (
+        if (
+            typeof doctor.isActive === "boolean"
+        )
+        {
+            return doctor.isActive;
+        }
+
+        if (
             doctor.status === "ACTIVE" ||
-            doctor.status === "active" ||
-            doctor.isActive === true
-        );
+            doctor.status === "active"
+        )
+        {
+            return true;
+        }
+
+        if (
+            doctor.status === "INACTIVE" ||
+            doctor.status === "inactive"
+        )
+        {
+            return false;
+        }
+
+        return false;
     };
 
-    const handleStatus =
-    async (
+
+    const filteredDoctors =
+        doctors.filter(
+            (doctor) =>
+            {
+                const searchText =
+                    search
+                        .toLowerCase()
+                        .trim();
+
+                const doctorName =
+                    getDoctorName(
+                        doctor
+                    )
+                    .toLowerCase();
+
+                const specialization =
+                    getSpecialization(
+                        doctor
+                    )
+                    .toLowerCase();
+
+                const department =
+                    getDepartment(
+                        doctor
+                    )
+                    .toString()
+                    .toLowerCase();
+
+                const email =
+                    getDoctorEmail(
+                        doctor
+                    )
+                    .toLowerCase();
+
+                return (
+                    doctorName.includes(
+                        searchText
+                    ) ||
+                    specialization.includes(
+                        searchText
+                    ) ||
+                    department.includes(
+                        searchText
+                    ) ||
+                    email.includes(
+                        searchText
+                    )
+                );
+            }
+        );
+
+
+    const handleStatus = async (
         doctor
     ) =>
     {
@@ -214,12 +259,32 @@ const AdminDoctors =
             );
 
         const newStatus =
+            !currentStatus;
+
+        const doctorName =
+            getDoctorName(
+                doctor
+            );
+
+        const action =
             currentStatus
-                ? "INACTIVE"
-                : "ACTIVE";
+                ? "disable"
+                : "activate";
+
+        const confirmed =
+            window.confirm(
+                `Are you sure you want to ${action} ${doctorName}?`
+            );
+
+        if (!confirmed)
+        {
+            return;
+        }
 
         try
         {
+            setError("");
+
             await updateDoctorStatus(
                 doctor._id,
                 newStatus
@@ -229,128 +294,194 @@ const AdminDoctors =
         }
         catch (requestError)
         {
-            alert(
+            console.error(
+                "Doctor status update error:",
                 requestError
-                    ?.response
-                    ?.data
-                    ?.message ||
-                "Unable to update doctor status."
+            );
+
+            const message =
+                requestError?.response?.data?.message ||
+                "Unable to update doctor status.";
+
+            setError(
+                message
+            );
+
+            alert(
+                message
             );
         }
     };
 
+
+    const handleRefresh = () =>
+    {
+        loadDoctors();
+    };
+
+
+    const handleAddDoctor = () =>
+    {
+        navigate(
+            "/admin/doctors/create"
+        );
+    };
+
+
+    const handleViewDoctor = (
+        doctorId
+    ) =>
+    {
+        navigate(
+            `/admin/doctors/${doctorId}`
+        );
+    };
+
+
+    const handleEditDoctor = (
+        doctorId
+    ) =>
+    {
+        navigate(
+            `/admin/doctors/${doctorId}/edit`
+        );
+    };
+
+
     return (
-        <div className="dashboard-page">
+        <div className="admin-doctors-page">
 
-            <div className="page-heading">
+            <div className="admin-doctors-header">
 
-                <div>
+                <div className="admin-doctors-title">
 
-                    <span className="page-eyebrow">
-                        ADMINISTRATION
-                    </span>
+                    <div className="admin-doctors-title-icon">
+                        <Stethoscope
+                            size={28}
+                        />
+                    </div>
 
-                    <h1>
-                        Doctors
-                    </h1>
+                    <div>
 
-                    <p>
-                        Manage doctors,
-                        specializations,
-                        schedules and
-                        availability.
-                    </p>
+                        <h1>
+                            Doctors
+                        </h1>
+
+                        <p>
+                            Manage hospital doctors
+                        </p>
+
+                    </div>
 
                 </div>
 
-                <button
-                    className="primary-button"
-                    onClick={() =>
-                        navigate(
-                            "/admin/doctors/add"
-                        )
-                    }
-                >
-                    <Plus size={19} />
 
-                    Add Doctor
-                </button>
+                <div className="admin-doctors-actions">
+
+                    <button
+                        type="button"
+                        className="admin-refresh-button"
+                        onClick={
+                            handleRefresh
+                        }
+                        disabled={
+                            loading
+                        }
+                    >
+
+                        <RefreshCw
+                            size={18}
+                            className={
+                                loading
+                                    ? "spin"
+                                    : ""
+                            }
+                        />
+
+                        Refresh
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        className="admin-add-doctor-button"
+                        onClick={
+                            handleAddDoctor
+                        }
+                    >
+
+                        <Plus
+                            size={18}
+                        />
+
+                        Add Doctor
+
+                    </button>
+
+                </div>
 
             </div>
 
-            <div className="doctor-toolbar">
 
-                <div className="doctor-search">
+            {error && (
+                <div className="admin-doctors-error">
+
+                    {error}
+
+                </div>
+            )}
+
+
+            <div className="admin-doctors-toolbar">
+
+                <div className="admin-doctors-search">
 
                     <Search
-                        size={19}
+                        size={20}
                     />
 
                     <input
                         type="text"
-                        placeholder="Search by name, specialization or department..."
-                        value={search}
+                        placeholder="Search doctors..."
+                        value={
+                            search
+                        }
                         onChange={
                             (event) =>
+                            {
                                 setSearch(
                                     event.target.value
-                                )
+                                );
+                            }
                         }
                     />
 
                 </div>
 
-                <button
-                    className="refresh-button"
-                    onClick={
-                        loadDoctors
-                    }
-                    disabled={
-                        loading
-                    }
-                >
 
-                    <RefreshCw
-                        size={18}
-                        className={
-                            loading
-                                ? "spin"
-                                : ""
-                        }
-                    />
+                <div className="admin-doctors-count">
 
-                    Refresh
-
-                </button>
-
-            </div>
-
-            {error && (
-
-                <div className="error-message">
-                    {error}
-                </div>
-
-            )}
-
-            <div className="doctor-count">
-
-                <strong>
                     {filteredDoctors.length}
-                </strong>
 
-                <span>
-                    doctors found
-                </span>
+                    {" "}
+
+                    Doctor
+                    {filteredDoctors.length !== 1
+                        ? "s"
+                        : ""}
+
+                </div>
 
             </div>
+
 
             {loading ? (
 
-                <div className="loading-state">
+                <div className="admin-doctors-loading">
 
                     <RefreshCw
-                        size={30}
+                        size={32}
                         className="spin"
                     />
 
@@ -362,32 +493,56 @@ const AdminDoctors =
 
             ) : filteredDoctors.length === 0 ? (
 
-                <div className="empty-state">
+                <div className="admin-doctors-empty">
 
                     <Stethoscope
-                        size={45}
+                        size={48}
                     />
 
-                    <h3>
+                    <h2>
                         No doctors found
-                    </h3>
+                    </h2>
 
                     <p>
-                        Try another search
-                        or add a new doctor.
+
+                        {search
+                            ? "Try a different search."
+                            : "No doctors have been added yet."}
+
                     </p>
+
+
+                    {!search && (
+
+                        <button
+                            type="button"
+                            onClick={
+                                handleAddDoctor
+                            }
+                            className="admin-add-doctor-button"
+                        >
+
+                            <Plus
+                                size={18}
+                            />
+
+                            Add Doctor
+
+                        </button>
+
+                    )}
 
                 </div>
 
             ) : (
 
-                <div className="doctor-grid">
+                <div className="admin-doctors-grid">
 
                     {filteredDoctors.map(
                         (doctor) =>
                         {
-                            const name =
-                                getDoctorName(
+                            const active =
+                                isDoctorActive(
                                     doctor
                                 );
 
@@ -396,22 +551,24 @@ const AdminDoctors =
                                     doctor
                                 );
 
-                            const active =
-                                isDoctorActive(
-                                    doctor
-                                );
-
                             return (
+
                                 <div
-                                    className="doctor-card"
+                                    className={
+                                        `admin-doctor-card ${
+                                            active
+                                                ? ""
+                                                : "doctor-inactive"
+                                        }`
+                                    }
                                     key={
                                         doctor._id
                                     }
                                 >
 
-                                    <div className="doctor-card-top">
+                                    <div className="admin-doctor-card-top">
 
-                                        <div className="doctor-photo">
+                                        <div className="admin-doctor-photo-wrapper">
 
                                             {photo ? (
 
@@ -420,13 +577,16 @@ const AdminDoctors =
                                                         photo
                                                     }
                                                     alt={
-                                                        name
+                                                        getDoctorName(
+                                                            doctor
+                                                        )
                                                     }
+                                                    className="admin-doctor-photo"
                                                 />
 
                                             ) : (
 
-                                                <div className="doctor-photo-placeholder">
+                                                <div className="admin-doctor-photo-placeholder">
 
                                                     <Stethoscope
                                                         size={30}
@@ -436,119 +596,143 @@ const AdminDoctors =
 
                                             )}
 
+
+                                            <span
+                                                className={
+                                                    `doctor-status-dot ${
+                                                        active
+                                                            ? "active"
+                                                            : "inactive"
+                                                    }`
+                                                }
+                                            />
+
                                         </div>
 
-                                        <span
-                                            className={
-                                                `status-badge ${
-                                                    active
-                                                        ? "active"
-                                                        : "inactive"
-                                                }`
-                                            }
-                                        >
-                                            {active
-                                                ? "Active"
-                                                : "Inactive"}
-                                        </span>
 
-                                    </div>
+                                        <div className="admin-doctor-basic-info">
 
-                                    <div className="doctor-card-content">
+                                            <h3>
 
-                                        <h3>
-                                            {name}
-                                        </h3>
+                                                {
+                                                    getDoctorName(
+                                                        doctor
+                                                    )
+                                                }
 
-                                        <p className="doctor-specialization">
-                                            {
-                                                doctor.specialization ||
-                                                "Specialization not available"
-                                            }
-                                        </p>
+                                            </h3>
 
-                                        <div className="doctor-details">
 
-                                            <div>
+                                            <p>
 
-                                                <span>
-                                                    Department
-                                                </span>
+                                                {
+                                                    getSpecialization(
+                                                        doctor
+                                                    )
+                                                }
 
-                                                <strong>
-                                                    {
-                                                        getDepartment(
-                                                            doctor
-                                                        )
-                                                    }
-                                                </strong>
-
-                                            </div>
-
-                                            <div>
-
-                                                <span>
-                                                    Experience
-                                                </span>
-
-                                                <strong>
-                                                    {
-                                                        doctor.experience ??
-                                                        "—"
-                                                    }
-
-                                                    {
-                                                        doctor.experience !==
-                                                        undefined
-                                                            ? " years"
-                                                            : ""
-                                                    }
-                                                </strong>
-
-                                            </div>
-
-                                            <div>
-
-                                                <span>
-                                                    Qualification
-                                                </span>
-
-                                                <strong>
-                                                    {
-                                                        doctor.qualification ||
-                                                        "—"
-                                                    }
-                                                </strong>
-
-                                            </div>
-
-                                            <div>
-
-                                                <span>
-                                                    Consultation
-                                                </span>
-
-                                                <strong>
-                                                    ₹
-                                                    {
-                                                        doctor.consultationFee ??
-                                                        "—"
-                                                    }
-                                                </strong>
-
-                                            </div>
+                                            </p>
 
                                         </div>
 
                                     </div>
 
-                                    <div className="doctor-card-actions">
+
+                                    <div className="admin-doctor-details">
+
+                                        <div className="admin-doctor-detail-row">
+
+                                            <span>
+                                                Department
+                                            </span>
+
+                                            <strong>
+
+                                                {
+                                                    getDepartment(
+                                                        doctor
+                                                    )
+                                                }
+
+                                            </strong>
+
+                                        </div>
+
+
+                                        <div className="admin-doctor-detail-row">
+
+                                            <span>
+                                                Email
+                                            </span>
+
+                                            <strong>
+
+                                                {
+                                                    getDoctorEmail(
+                                                        doctor
+                                                    )
+                                                }
+
+                                            </strong>
+
+                                        </div>
+
+
+                                        <div className="admin-doctor-detail-row">
+
+                                            <span>
+                                                Phone
+                                            </span>
+
+                                            <strong>
+
+                                                {
+                                                    getDoctorPhone(
+                                                        doctor
+                                                    )
+                                                }
+
+                                            </strong>
+
+                                        </div>
+
+
+                                        <div className="admin-doctor-detail-row">
+
+                                            <span>
+                                                Status
+                                            </span>
+
+
+                                            <span
+                                                className={
+                                                    `admin-doctor-status ${
+                                                        active
+                                                            ? "active"
+                                                            : "inactive"
+                                                    }`
+                                                }
+                                            >
+
+                                                {active
+                                                    ? "ACTIVE"
+                                                    : "INACTIVE"}
+
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <div className="admin-doctor-card-actions">
 
                                         <button
-                                            className="doctor-action view"
+                                            type="button"
+                                            className="doctor-view-button"
                                             onClick={() =>
-                                                navigate(
-                                                    `/admin/doctors/${doctor._id}`
+                                                handleViewDoctor(
+                                                    doctor._id
                                                 )
                                             }
                                         >
@@ -561,11 +745,13 @@ const AdminDoctors =
 
                                         </button>
 
+
                                         <button
-                                            className="doctor-action edit"
+                                            type="button"
+                                            className="doctor-edit-button"
                                             onClick={() =>
-                                                navigate(
-                                                    `/admin/doctors/${doctor._id}/edit`
+                                                handleEditDoctor(
+                                                    doctor._id
                                                 )
                                             }
                                         >
@@ -578,12 +764,14 @@ const AdminDoctors =
 
                                         </button>
 
+
                                         <button
+                                            type="button"
                                             className={
-                                                `doctor-action ${
+                                                `doctor-status-button ${
                                                     active
                                                         ? "disable"
-                                                        : "enable"
+                                                        : "activate"
                                                 }`
                                             }
                                             onClick={() =>
@@ -597,17 +785,16 @@ const AdminDoctors =
                                                 size={17}
                                             />
 
-                                            {
-                                                active
-                                                    ? "Disable"
-                                                    : "Activate"
-                                            }
+                                            {active
+                                                ? "Disable"
+                                                : "Activate"}
 
                                         </button>
 
                                     </div>
 
                                 </div>
+
                             );
                         }
                     )}
@@ -619,5 +806,6 @@ const AdminDoctors =
         </div>
     );
 };
+
 
 export default AdminDoctors;

@@ -4,7 +4,7 @@ import React,
     useState
 }
 from "react";
-
+import "./AdminDoctors.css";
 import {
     ArrowLeft,
     Pencil,

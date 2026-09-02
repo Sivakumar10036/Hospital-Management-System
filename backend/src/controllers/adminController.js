@@ -910,10 +910,22 @@ const updateDoctorStatus =
             );
         }
 
-        const isActive =
-            Boolean(
-                request.body.isActive
+        const { isActive } =
+            request.body;
+
+        if (
+            typeof isActive !==
+            "boolean"
+        )
+        {
+            return response.status(400).json(
+                {
+                    success: false,
+                    message:
+                        "isActive must be true or false"
+                }
             );
+        }
 
         doctor.isActive =
             isActive;
@@ -930,7 +942,7 @@ const updateDoctorStatus =
             }
         );
 
-        response.json(
+        return response.json(
             {
                 success: true,
                 message:
@@ -948,7 +960,7 @@ const updateDoctorStatus =
             error
         );
 
-        response.status(500).json(
+        return response.status(500).json(
             {
                 success: false,
                 message:

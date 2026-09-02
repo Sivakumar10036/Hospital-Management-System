@@ -1,8 +1,7 @@
 import api from "../api/axios";
 
 
-export const getDoctors =
-async () =>
+export const getDoctors = async () =>
 {
     const response =
         await api.get(
@@ -13,8 +12,7 @@ async () =>
 };
 
 
-export const getDepartments =
-async () =>
+export const getDepartments = async () =>
 {
     const response =
         await api.get(
@@ -25,8 +23,7 @@ async () =>
 };
 
 
-export const getDoctorById =
-async (
+export const getDoctorById = async (
     doctorId
 ) =>
 {
@@ -39,8 +36,7 @@ async (
 };
 
 
-export const createDoctor =
-async (
+export const createDoctor = async (
     doctorData
 ) =>
 {
@@ -61,8 +57,7 @@ async (
 };
 
 
-export const updateDoctor =
-async (
+export const updateDoctor = async (
     doctorId,
     doctorData
 ) =>
@@ -84,8 +79,7 @@ async (
 };
 
 
-export const updateDoctorStatus =
-async (
+export const updateDoctorStatus = async (
     doctorId,
     isActive
 ) =>
